@@ -18,4 +18,4 @@ console.log(`app is running and listening on port ${PORT}`);
 })
 
 
-export default app
+export default app;

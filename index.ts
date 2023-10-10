@@ -2,7 +2,7 @@ import "reflect-metadata"
 import express from 'express';
 import 'reflect-metadata';
 
-import { Index } from "typeorm";
+// import { Index } from "typeorm";
 
 
 const app = express() ; 

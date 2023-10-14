@@ -1,6 +1,8 @@
 import "reflect-metadata"
 import express from 'express';
-import 'reflect-metadata';
+import db from './db/dataSource'
+import dotenv from 'dotenv'
+// import { Db } from "typeorm";
 
 // import { Index } from "typeorm";
 
@@ -14,7 +16,7 @@ app.use(express.json());
 
 app.listen(PORT,() =>{
 console.log(`app is running and listening on port ${PORT}`);
-// db.initialize();
+db.initialize();
 })
 
 

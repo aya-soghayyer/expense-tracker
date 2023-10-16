@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  app_service:
+    build: .
+    ports:
+      - "5003:8080"
+    depends_on:
+      - db
+    environment:
+     - mysql://root:${MYSQL_ADDON_PASSWORD}@db:3306/my_db
+
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ADDON_PASSWORD}
+      MYSQL_DATABASE: my_db
+    ports:
+      - "3306:3306"

@@ -1,8 +1,10 @@
 import { title } from "process";
-import { BaseEntity, ChangeStreamReplaceDocument, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, ChangeStreamReplaceDocument, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Expense } from "./expense";
 
 @Entity('Currency')
-export class currency extends BaseEntity{
+export class Currency extends BaseEntity{
+    
     @PrimaryGeneratedColumn('increment')
     id : number
 
@@ -11,6 +13,9 @@ export class currency extends BaseEntity{
 
     @Column({length: 3})
     symbol: string 
+
+    @OneToMany(() =>Expense, (expense)=>expense.currency)
+    expenses: Expense[]
 
 
 

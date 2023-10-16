@@ -1,5 +1,13 @@
 import { DataSource } from "typeorm";
-import { account } from "./entity/account";
+import { Business } from "./entity/businessAcc";
+import { Expense } from "./entity/expense";
+import { Personal } from "./entity/personalAcc";
+import { Currency } from "./entity/currency";
+import { Category } from "./entity/category";
+import { Account } from "./entity/account";
+
+
+
 
 const AppDataSource = new DataSource({
     type: 'mysql',
@@ -8,7 +16,7 @@ const AppDataSource = new DataSource({
     username: 'root',
     password: '',
     database: 'expense_tracker',
-    entities: [account, ],
+    entities: [  Business, Expense, Personal, Currency, Category, Account],
     // migrations: ['./**/migration/*.ts'],
     synchronize: true,
     logging: true

@@ -2,7 +2,7 @@ import { type } from "os";
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('Account')
-export class account extends BaseEntity {
+export class Personal extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
     id: number
   

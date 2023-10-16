@@ -1,10 +1,11 @@
 import { type } from "os";
-import { BaseEntity, BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import bcrypt from 'bcrypt'
+import { Expense } from "./expense";
 
 
 @Entity('Account')
-export class account extends BaseEntity {
+export class Account extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
     id: number
   
@@ -39,5 +40,8 @@ export class account extends BaseEntity {
     })
     authintication_type: 'google'| 'facebook'
 
+    @OneToMany(()=>Expense, (expense)=>expense.account)
+    expenses: Expense[]
+    
     
   }

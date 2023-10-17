@@ -1,6 +1,7 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Account } from "./account";
 
-@Entity('Business Account ')
+@Entity('BusinessAccount')
 export class Business extends BaseEntity{
 
     @PrimaryGeneratedColumn('increment')
@@ -9,7 +10,7 @@ export class Business extends BaseEntity{
     @Column({length: 20 , nullable: false })
     title: string 
 
-    @Column({length:10000})
+    @Column({type: "longtext"})
     description: string 
 
     @Column({length: 50 , nullable: false})
@@ -30,5 +31,7 @@ export class Business extends BaseEntity{
     })
     lastModifiedAt: Date
 
+    @OneToMany(()=>Account, (account)=>account.business)
+    accounts:Account[]
 
 }

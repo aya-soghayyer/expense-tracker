@@ -1,7 +1,9 @@
 import { type } from "os";
-import { BaseEntity, BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import bcrypt from 'bcrypt'
 import { Expense } from "./expense";
+import { Personal } from "./personalAcc";
+import { Business } from "./businessAcc";
 
 
 @Entity('Account')
@@ -42,6 +44,12 @@ export class Account extends BaseEntity {
 
     @OneToMany(()=>Expense, (expense)=>expense.account)
     expenses: Expense[]
+    
+    @ManyToOne(()=>Personal, (personl)=>personl.accounts)
+    personal: Personal
+
+    @ManyToOne(()=>Business, (business)=>business.accounts)
+    business: Business
     
     
   }

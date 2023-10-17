@@ -13,7 +13,7 @@ export class Expense extends BaseEntity{
     @Column({length: 70})
     name : string
     
-    @Column({type: "text" , length: 10000})
+    @Column({type: "longtext" })
     description: string 
 
     @Column({type: 'dec'})

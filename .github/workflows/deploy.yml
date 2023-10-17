@@ -1,0 +1,14 @@
+name: EC2-Push
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+    deploy:
+      name: EC2 Instance
+      runs-on: ubuntu-latest || self-hosted
+      
+      steps:
+        - name: Checkout the code
+          uses: actions/checkout@v1

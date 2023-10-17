@@ -1,7 +1,8 @@
 import { type } from "os";
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Account } from "./account";
 
-@Entity('Account')
+@Entity('PersonalAccount')
 export class Personal extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
     id: number
@@ -22,7 +23,8 @@ export class Personal extends BaseEntity {
     })
     createdAt: Date
 
-  
+    @OneToMany(()=>Account, (account)=>account.personal)
+    accounts:Account[]
     
 
 

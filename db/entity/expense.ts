@@ -7,7 +7,7 @@ import { Account } from "./account";
 @Entity('Expense')
 export class Expense extends BaseEntity{
      
-    @PrimaryGeneratedColumn('rowid')
+    @PrimaryGeneratedColumn('uuid')
     id : number 
 
     @Column({length: 70})

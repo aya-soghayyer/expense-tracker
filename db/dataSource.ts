@@ -13,7 +13,7 @@ import dotenv from 'domain'
 
 const AppDataSource = new DataSource({
     type: 'mysql',
-    host: process.env.TZ  ,
+    host: 'localhost' ,
     port: 3306,
     username: 'root',
     password: '',
@@ -31,4 +31,4 @@ const AppDataSource = new DataSource({
         console.error("Error during Data Source initialization", err)
     })
 }
-  export default {AppDataSource , initialize};
+  export default {AppDataSource, initialize };

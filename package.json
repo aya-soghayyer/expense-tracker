@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "final project :)",
   "main": "index.js",
+  
   "scripts": {
     "build-tsc": "tsc -w",
     "run-watch": "nodemon ./dist",

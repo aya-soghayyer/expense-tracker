@@ -1,4 +1,5 @@
 import "reflect-metadata"
+// import 'dotenv/config.js'
 import express from 'express';
 import db from './db/dataSource'
 import dotenv from 'dotenv'
@@ -8,6 +9,7 @@ import currencyRouter from './routers/currencies'
 import accountRounter from './routers/account'
 import businessRouter from './routers/buisiness_account'
 import personalRouter from './routers/personal_account'
+
 // import { Db } from "typeorm";
 
 // import { Index } from "typeorm";
@@ -26,12 +28,15 @@ app.use('/expense-tracker/business-accounts', businessRouter)
 app.use('/expense-tracker/personal-accounts', personalRouter)
 
 
+
+
  
 
 app.listen(PORT,() =>{
 console.log(`app is running and listening on port ${PORT}`);
 db.initialize();
 })
+ 
 
 
 export default app;

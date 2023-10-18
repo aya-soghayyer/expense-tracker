@@ -5,10 +5,6 @@ import { Personal } from "./entity/personalAcc";
 import { Currency } from "./entity/currency";
 import { Category } from "./entity/category";
 import { Account } from "./entity/account";
-<<<<<<< HEAD
-import dotenv from 'dotenv'
-=======
->>>>>>> main
 
 
 

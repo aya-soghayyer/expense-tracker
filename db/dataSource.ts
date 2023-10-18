@@ -5,13 +5,15 @@ import { Personal } from "./entity/personalAcc";
 import { Currency } from "./entity/currency";
 import { Category } from "./entity/category";
 import { Account } from "./entity/account";
+import config from '../config'
+import dotenv from 'domain'
 
 
 
 
 const AppDataSource = new DataSource({
     type: 'mysql',
-    host: 'localhost',
+    host: process.env.TZ  ,
     port: 3306,
     username: 'root',
     password: '',

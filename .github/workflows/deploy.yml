@@ -2,16 +2,26 @@ name: EC2-Push
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-    deploy:
-      name: EC2 Instance
-      runs-on: ubuntu-latest 
-      
-      steps:
-        - name: Checkout the code
-          uses: actions/checkout@v1
+  deploy:
+    name: EC2 Instance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Deploy-EC2-instance
+        uses: easingthemes/ssh-deploy@v2.1.5
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: "path/to/your/deployment/directory"  # Replace with the path on your EC2 where you want to deploy
+
 
 
 

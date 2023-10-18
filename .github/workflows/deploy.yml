@@ -20,7 +20,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: "path/to/your/deployment/directory"  # Replace with the path on your EC2 where you want to deploy
+          TARGET: "home"  # Replace with the path on your EC2 where you want to deploy
 
 
 

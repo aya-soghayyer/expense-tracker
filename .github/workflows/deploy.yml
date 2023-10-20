@@ -30,20 +30,20 @@ jobs:
       run: docker build . --file Dockerfile --tag ghcr.io/khaledez/express-docker:${{ steps.image_version.outputs.gitsha }}
     - name: Publish docker image
       run: docker push ghcr.io/khaledez/express-docker:${{ steps.image_version.outputs.gitsha }}
-    - name: configure docker host
-      uses: khaledez/configure-docker-host@v1
-      with:
-        host: 18.170.38.203
-        user: github
-        ssh-private-key: ${{ secrets.DEPLOYMENT_KEY }}
-    - name: deploy
-      run: docker compose -f docker-compose-prod.yml up -d
-      env:
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        GIT_VERSION: ${{ steps.image_version.outputs.gitsha }}
-    - name: print logs
-      if: always() # This step will be executed even if previous steps fails
-      run: docker compose logs
+  #  - name: configure docker host
+   #   uses: khaledez/configure-docker-host@v1
+    #  with:
+     #   host: 18.170.38.203
+      #  user: github
+       # ssh-private-key: ${{ secrets.DEPLOYMENT_KEY }}
+    #- name: deploy
+     # run: docker compose -f docker-compose-prod.yml up -d
+      #env:
+       # DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+       # GIT_VERSION: ${{ steps.image_version.outputs.gitsha }}
+    #- name: print logs
+    #  if: always() # This step will be executed even if previous steps fails
+     # run: docker compose logs
 
 
 

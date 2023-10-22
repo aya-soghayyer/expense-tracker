@@ -79,7 +79,18 @@ router.get('/', async (req: any, res: any) => {
 })
 
 
+router.get('/convert', async (req: any, res: any) => {
 
+    const access_key = '9386e3ca4eb43a9f7e4cdef4862648ba';
+    const url = `http://api.exchangeratesapi.io/v1/latest?access_key=${access_key}`;
+    // const from = req.query.from
+    // const to = req.query.to
+    fetch(url)
+      .then(response => response.json())
+      .then(data => res.send(data))
+
+    
+});
 
 
 

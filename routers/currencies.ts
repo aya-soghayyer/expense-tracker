@@ -9,9 +9,9 @@ import { Like } from 'typeorm';
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    const newCategory = new Currency()
-    newCategory.title = req.body.title;
-    newCategory.save().then((response) => {
+    const newCurrency = new Currency()
+    newCurrency.title = req.body.title;
+    newCurrency.save().then((response) => {
         res.status(201).send(' New currency added with ID:' + response.id);
     }).catch(error => {
         console.error(error);
@@ -21,10 +21,10 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     const id = Number(req.params.id);
-    const category = await Currency.findOneBy({ id });
-    if (category) {
-        category.remove().then((response) => {
-            res.status(201).send('Delete currency successful :)' + response.id);
+    const currency = await Currency.findOneBy({ id });
+    if (currency) {
+        currency.remove().then((response) => {
+            res.status(201).send('Delete currency successful :)');
         }).catch(error => {
             console.error(error);
             res.status(500).send('Something went wrong');
@@ -34,10 +34,10 @@ router.delete('/:id', async (req, res) => {
 
 router.put('/:id', async (req:any, res:any) => {
     const id = req.params.id;
-    const category = await Currency.findOneBy({ id });
-    if (category) {
-        category.title = req.body.title
-        category.save().then((response) => {
+    const currency = await Currency.findOneBy({ id });
+    if (currency) {
+        currency.title = req.body.title
+        currency.save().then((response) => {
             res.status(201).send('Update currency successful :) ' + response.id);
         }).catch(error => {
             console.error(error);
@@ -49,14 +49,14 @@ router.put('/:id', async (req:any, res:any) => {
 router.get('/search', async (req: any, res: any) => {
     const term = req.query.term;
     try {
-        const category = await Currency.find({
+        const currency = await Currency.find({
             where: [
                 { title: Like(`%${term}%`) },
             ]
         });
         res.send({ 
-            total: category.length,
-            category
+            total: currency.length,
+            currency
         });
     } catch (error) {
         console.error(error);
@@ -66,11 +66,11 @@ router.get('/search', async (req: any, res: any) => {
 
 router.get('/', async (req: any, res: any) => {
 
-    const categories = await Currency.find()
+    const currency = await Currency.find()
     try {
         res.send({
-            total: categories.length,
-            categories,
+            total: currency.length,
+            currency,
         });
     } catch (error) {
         console.error(error);
@@ -79,18 +79,7 @@ router.get('/', async (req: any, res: any) => {
 })
 
 
-router.get('/convert', async (req: any, res: any) => {
 
-    const access_key = '9386e3ca4eb43a9f7e4cdef4862648ba';
-    const url = `http://api.exchangeratesapi.io/v1/latest?access_key=${access_key}`;
-    // const from = req.query.from
-    // const to = req.query.to
-    fetch(url)
-      .then(response => response.json())
-      .then(data => res.send(data))
-
-    
-});
 
 
 

@@ -11,12 +11,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 
-
-
-
-
-
-
 const AppDataSource = new DataSource({
     type: 'mysql',
     host: process.env.DB_HOST ,

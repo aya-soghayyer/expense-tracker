@@ -4,15 +4,17 @@ import { Account } from '../db/entity/account';
 
 
 const login = async (email: string, password: string) => {
-    try {
+  
+  try {
       const user = await Account.findOneBy({
         email,
-        password
+        
       });
-  
+    console.log("test")  
       const passwordMatching = await bcrypt.compare(password, user?.password || '');
-  
+      console.log('test2')
       if (user && passwordMatching) {
+        console.log('tesst')
         const token = jwt.sign(
           {
             email: user.email,

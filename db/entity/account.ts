@@ -2,9 +2,6 @@ import { type } from "os";
 import { BaseEntity, BeforeInsert, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import bcrypt from 'bcrypt'
 import { Expense } from "./expense";
-import { Personal } from "./personalAcc";
-import { Business } from "./businessAcc";
-
 
 @Entity('Account')
 export class Account extends BaseEntity {
@@ -29,7 +26,7 @@ export class Account extends BaseEntity {
 
     @Column({
         type: 'enum',
-        enum : ['personal' ,'business' ],
+        enum : ['personal' ,'business'],
         default: 'personal'
     })
     type : 'personal' | 'business'
@@ -37,19 +34,15 @@ export class Account extends BaseEntity {
   //*******
     @Column({
         type: "enum",
-        enum:['google' , 'facebook'],
-        default: 'facebook'
+        enum:['google' , 'no select'],
+        // default: 'facebook'
     })
-    authintication_type: 'google'| 'facebook'
+    authintication_type: 'google'| 'no select'
 
     @OneToMany(()=>Expense, (expense)=>expense.account)
     expenses: Expense[]
     
-    @ManyToOne(()=>Personal, (personl)=>personl.accounts)
-    personal: Personal
-
-    @ManyToOne(()=>Business, (business)=>business.accounts)
-    business: Business
+    
     
     
   }

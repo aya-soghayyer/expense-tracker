@@ -27,12 +27,12 @@ export class Account extends BaseEntity {
     @Column({nullable: false, length:80})
     email:string
     
-    @Column({
+   /* @Column({
         type: "enum",
         enum:['google' , 'no select'],
         // default: 'facebook'
     })
-    authintication_type: 'google'| 'no select'
+    authintication_type: 'google'| 'no select' */
 
     @OneToMany(()=>Expense, (expense)=>expense.account)
     expenses: Expense[]

@@ -1,8 +1,7 @@
 import express from 'express';
-import { signup, login, deleteAccount, updateAcountPassword, forgetPassword, resetAccountPassword } from '../controllers/account.js'
+import { signup, login, deleteAccount/* updateAcountPassword, forgetPassword, resetAccountPassword */} from '../controllers/account.js'
 import { authenticate } from '../middleware/auth.js';
-import { Account } from '../db/entity/account';
-import { login } from '../controllers/account';
+// import { Account } from '../db/entity/account';
 import { ExpressNS } from '../../@types/index.js';
 import jwt from 'jsonwebtoken';
 
@@ -66,7 +65,7 @@ router.delete("/expense-tracker/", authenticate, async (req: ExpressNS.RequestWi
  } 
 });
 
-// Update account password ..PUT..
+/*// Update account password ..PUT..
 router.put("/expense-tracker/password", authenticate, async (req: ExpressNS.RequestWithUser, res: express.Response) => {
 try {
   const account = req.account;
@@ -139,7 +138,7 @@ router.post("/expense-tracker/reset-password", authenticate, async (req: Express
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
-  }
-});
+  } 
+});*/
 
 export default router;

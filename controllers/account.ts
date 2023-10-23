@@ -3,7 +3,7 @@ import { Account  } from "../db/entity/account";
 import generateToken from "../utils/generateToken.js";
 import bcrypt from 'bcrypt'
 
-const ssignup = async (payload: AccountNS.Account) => {
+const signup = async (payload: AccountNS.Account) => {
   const { userName, email, password, bio } = payload;
   const user = await Account.findOneBy({ email })
   if (user) {
@@ -42,7 +42,7 @@ const deleteAccount = async (accountIn: AccountNS.Account) => {
       await account.remove();
   } 
   
-  const updateAcountPassword = async (oldPassword: string, newPassword: string, accountIn: AccountNS.Account) => {
+ /* const updateAcountPassword = async (oldPassword: string, newPassword: string, accountIn: AccountNS.Account) => {
     try {
         const account = await Account.findOneBy({ id: accountIn.id });
 
@@ -106,19 +106,13 @@ const resetAccountPassword = async (newPassword: string, account: Account) => {
           message: (error instanceof Error) ? error.message : 'Internal Server Error'
       };
   }
-}
+}*/
 
 export {
-  ssignup,
+  signup,
   login,
-  deleteAccount,
-  updateAcountPassword,
+  deleteAccount
+  /*updateAcountPassword,
   forgetPassword,
-  resetAccountPassword
-}
-
-
-
-function updateUserCache(id: number) {
-  throw new Error("Function not implemented.");
+resetAccountPassword*/
 }

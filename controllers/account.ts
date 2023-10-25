@@ -41,7 +41,6 @@ const deleteAccount = async (accountIn: AccountNS.Account) => {
 
     await account.remove();
 
-      
   } 
 export {
   signup,

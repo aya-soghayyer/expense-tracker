@@ -12,8 +12,13 @@ import { setFips } from 'crypto';
 import { execSync } from 'child_process';
 import { Currency } from '../db/entity/currency';
 // import uplouds from ""
+import {convert} from '../controllers/expenses';
+
+import dotenv from 'dotenv'
+import { RExpense } from '../@types/expense';
 
 
+dotenv.config()
 
 
 
@@ -24,99 +29,27 @@ const upload = multer({ dest: 'uploads/' })
 
 
 //** */
-router.get('/convert', async (req: any, res: any) => {
-    // const id = Number(req.params.id)
-    const newExpense= await Expense.find();
+router.get('/convert', async (req, res) => {
+    console.log("test")
+    let to =   req.query.to
     const from = req.query.from
-    let to = req.query.to 
-    let amount = req.query.amount
-    let num=0
-    const access_key = 'fca_live_okDZMcx0iJuWoZ2EyutBSpRAkgFbQe1LzOdnqhiV';
-    const url = `https://api.freecurrencyapi.com/v1/latest?apikey=${access_key}&currencies=${to}&base_currency=${from}`;
-    fetch(url)
-      .then(response => response.json())
-      .then( data=>{ num =data.data[to]
-    }).then(()=>{ try {
-             res.send({
-               amount:amount,
-            // amountafter :amount*Number(),
-               amountAfter:Number((num*amount).toFixed(2))
-            //    amoundtAfterchangetofloat:setFips
-               });
-    //  amount =res.send(Number((num*amount).toFixed(2)))
-    }catch (error) {
-        console.error(error);
-        res.status(500).send("Something went wrong!");
-    }})
-    // amount.save().then((res:any) => {
-    //     res.status(201).send(' New expense record added with ID:' + res.id);
-    // })
-})
 
-router.post('/',  async (req, res) => {
-    const newExpense = new Expense()
-    newExpense.name = req.body.name;
-    newExpense.description = req.body.description;
-    newExpense.amount = req.body.amount;
-    newExpense.category = req.body.categoryId;
-    newExpense.currency = req.body.currencyId;
-    newExpense.attachment_recip = req.body.attachment_recip;
+    const id = Number(req.query.id)
+    const expense = await Expense.findOneBy({id})
+          console.log('test1')
+          if (!expense) {
+            throw "Expense not found!";
+            console.log('test2')
+          }
+   
 
-    console.log(req.file)
-    newExpense.save().then((response) => {
-        res.status(201).send(' New expense record added with ID:' + response.id);
-    }).catch(error => {
-        console.error(error);
-        res.status(500).send('Something went wrong');
-    });
-})
-
-router.delete('/:id', async (req, res) => {
-    const id = Number(req.params.id);
-    const expense = await Expense.findOneBy({ id });
-    if (expense) {
-        expense.remove().then((response) => {
-            res.status(201).send('Delete expense successful :)' );
-        }).catch(error => {
-            console.error(error);
-            res.status(500).send('Something went wrong');
-        });
-    }
-})
-
-router.put('/:id', async (req:any, res:any) => {
-    const id = Number(req.params.id);
-    const expense = await Expense.findOneBy({ id });
-    if (expense) {
-        expense.name = req.body.name
-        expense.description = req.body.description;
-        expense.amount = req.body.amount;
-        expense.category = req.body.categoryId;
-        expense.currency = req.body.currencyId;
-        // expense.account = req.body.account;
-        expense.attachment_recip = req.body.attachment_recip;
-        expense.save().then((response) => {
-            res.status(201).send('Update expense successful :) ' + response.id);
-        }).catch(error => {
-            console.error(error);
-            res.status(500).send('Something went wrong');
-        });
-    }
-})
-
-router.get('/', async (req: any, res: any) => {
-
-
-    const expense = await Expense.find()
-    try {
-        res.send({
-            total: expense.length,
-            expense,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Something went wrong!");
-    }
+    convert(to, from )
+   .then(data => {
+    res.send(data.amountInTargetCurrency);
+  })
+  .catch(err => {
+    res.status(401).send(err);
+  })
 })
 
 router.get('/min', async (req: any, res: any) => {    
@@ -157,10 +90,56 @@ router.get('/max', async (req: any, res: any) => {
     }
 })
 
+// router.get('/expenses/analytics/total_amount', async (req, res) => {
+
+//     try {
+//       const fromDate =  new Date(req.query.fromDate); // Date format for start date
+//       const toDate = req.query.toDate;     // Date format for end date
+//       const targetCurrency = req.query.currency;     // Target currency code
+  
+//       // Find expenses within the specified date range
+//       const expenses = await Expense.find({
+//         // date: {  fromDate,  toDate },
+//       });
+  
+//       // Initialize the total amount
+//       let totalAmount = 0;
+  
+//       // Iterate through expenses and convert to the target currency
+//       for (const expense of expenses) {
+//         const access_key = process.env.currency_key_access;
+//         const url = `https://api.freecurrencyapi.com/v1/latest?apikey=${access_key}&currencies=${targetCurrency}&base_currency=ILS`;
+//         const response = await fetch(url);
+//         const data = await response.json();
+//         const num = data.data['targetCurrency'];
+  
+//         if (num === undefined) {
+//           throw "Invalid target currency!";
+//         }
+  
+//         const convertedAmount = Number((num * expense.amount).toFixed(2));
+//         totalAmount += convertedAmount;
+//       }
+  
+//       res.json({ totalAmount });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ error: "Something went wrong!" });
+//     }
+//   });
+
+
+
+
+
 
 
 
 //*** */
+
+
+
+
 router.post('/upload', upload.single('image'), (req, res) => {
     // var data={'filename': req.file.filename};
     if (!req.file) {
@@ -176,7 +155,6 @@ router.post('/upload', upload.single('image'), (req, res) => {
     
         console.log(req.file)
 })
-
 
 
 

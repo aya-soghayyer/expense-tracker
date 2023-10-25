@@ -48,13 +48,6 @@ app.use(function (err: any, req: any, res: any, next: any) {
     res.status(err.status || 500).send({ error: err.message });
   });
   
- /* dataSource.initialize().then(() => {
-    console.log("Connected to DB!");
-  }).catch(err => {
-    console.error('Failed to connect to DB: ' + err);
-  }); */
-
- 
 
 app.listen(PORT,() =>{
 console.log(`App is running and listening on port ${PORT} and host http://localhost:${PORT}`);

@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 name: To-EC2
 
 on:
@@ -53,4 +51,3 @@ jobs:
     - name: print logs
       if: always() # This step will be executed even if previous steps fails
       run: docker compose logs
->>>>>>> 54913b4581725405a01e6117b98d061beac4d452

@@ -1,27 +1,52 @@
-name: EC2-Push
+name: To-EC2
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  
 
 jobs:
-  deploy:
-    name: EC2 Instance
+  build:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    
+    - name: Set image version (tag)
+      id: image_version
+      run: echo "gitsha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Deploy-EC2-instance
-        uses: easingthemes/ssh-deploy@v2.1.5
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH }}
-          REMOTE_HOST: ${{ secrets.HOST }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: "home"  # Replace with the path on your EC2 where you want to deploy
-
-
-
-
+    - name: Login to Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ghcr.io/tarteelgh/expense-tracker:${{ steps.image_version.outputs.gitsha }}
+    - name: Publish docker image
+      run: docker push ghcr.io/tarteelgh/expense-tracker:${{ steps.image_version.outputs.gitsha }}
+    - name: configure docker host
+      uses: khaledez/configure-docker-host@v2 
+      with:
+        host: 18.134.242.184
+        user: ubuntu
+        ssh-private-key: ${{ secrets.DEPLOYMENT_KEY }}
+    - name: deploy
+      run: docker compose -f docker-compose-prod.yml up -d
+      env:
+        GIT_VERSION: ${{ steps.image_version.outputs.gitsha }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }} 
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_PORT: ${{ secrets.DB_PORT }} 
+        SECRET_KEY: ${{ secrets.SECRET_KEY }} 
+        PORT: ${{ secrets.PORT }} 
+    - name: print logs
+      if: always() # This step will be executed even if previous steps fails
+      run: docker compose logs

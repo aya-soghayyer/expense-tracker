@@ -11,6 +11,7 @@ services:
        - DB_NAME=$DB_NAME
        - DB_PORT=$DB_PORT 
        - SECRET_KEY=$SECRET_KEY 
+       - currency_key_access=$currency_key_access
        - PORT=$PORT
     ports:
       - "80:80"

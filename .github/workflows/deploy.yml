@@ -36,6 +36,12 @@ jobs:
         host: 35.176.154.47
         user: ubuntu
         ssh-private-key: ${{ secrets.DEPLOYMENT_KEY }}
+
+    - name: Debug SSH connection
+      run: |
+        eval $(ssh-agent -s)
+        ssh-add ${{ secrets.DEPLOYMENT_KEY }}
+        ssh -vvv -i ${{ secrets.DEPLOYMENT_KEY }} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 22 ubuntu@35.176.154.47
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d
       env:

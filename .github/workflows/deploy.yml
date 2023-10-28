@@ -31,15 +31,22 @@ jobs:
     - name: Publish docker image
       run: docker push ghcr.io/tarteelgh/expense-tracker:${{ steps.image_version.outputs.gitsha }}
     - name: configure docker host
-      uses: tarteelgh/
+      uses: khaledez/configure-docker-host@v2 
       with:
-        host: ec2-13-40-213-111.eu-west-2.compute.amazonaws.com
+        host: 18.134.242.184
         user: ubuntu
         ssh-private-key: ${{ secrets.DEPLOYMENT_KEY }}
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d
       env:
         GIT_VERSION: ${{ steps.image_version.outputs.gitsha }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }} 
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_PORT: ${{ secrets.DB_PORT }} 
+        SECRET_KEY: ${{ secrets.SECRET_KEY }} 
+        PORT: ${{ secrets.PORT }} 
     - name: print logs
       if: always() # This step will be executed even if previous steps fails
       run: docker compose logs

@@ -27,9 +27,9 @@ jobs:
         username: aya-soghayyer
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ghcr.io/tarteelgh/expense-tracker:${{ steps.image_version.outputs.gitsha }}
+      run: docker build . --file Dockerfile --tag ghcr.io/aya-soghayyer/expense-tracker:${{ steps.image_version.outputs.gitsha }}
     - name: Publish docker image
-      run: docker push ghcr.io/tarteelgh/expense-tracker:${{ steps.image_version.outputs.gitsha }}
+      run: docker push ghcr.io/aya-soghayyer/expense-tracker:${{ steps.image_version.outputs.gitsha }}
     - name: configure docker host
       uses: khaledez/configure-docker-host@v2 
       with:

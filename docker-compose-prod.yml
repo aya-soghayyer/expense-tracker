@@ -9,8 +9,7 @@ services:
        - DB_USER=$DB_USER 
        - DB_PASSWORD=$DB_PASSWORD
        - DB_NAME=$DB_NAME
-       - DB_PORT=$DB_PORT 
-       - SECRET_KEY=$SECRET_KEY 
+       - DB_PORT=$DB_PORT
        - currency_key_access=$currency_key_access
        - PORT=$PORT
     ports:

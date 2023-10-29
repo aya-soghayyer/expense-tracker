@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { AccountNS } from '../@types/account';
+import { AccountNS } from '../@types/account.js';
 
 
 const generateToken = (account: AccountNS.Account) => {

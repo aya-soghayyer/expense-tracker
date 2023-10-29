@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Expense } from "./expense";
+import { Expense } from "./expense.js";
 
 @Entity('Category')
 export class Category extends BaseEntity{

@@ -1,7 +1,7 @@
 import express from 'express';
-import { Category } from '../db/entity/category';
-import db from '../db/dataSource'
-import { Expense } from '../db/entity/expense';
+import { Category } from '../db/entity/category.js';
+import {AppDataSource} from '../db/dataSource.js'
+import { Expense } from '../db/entity/expense.js';
 import { title } from 'process';
 import {  Like,  } from 'typeorm';
 

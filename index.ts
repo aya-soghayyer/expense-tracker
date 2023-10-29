@@ -1,16 +1,14 @@
 import "reflect-metadata"
 import "./config.js"
 import express from 'express';
-import db from './db/dataSource'
+import {AppDataSource, initialize }from './db/dataSource.js'
 import dotenv from 'dotenv'
 import createError from 'http-errors'
-
-import expenseRouter from './routers/expenses'
-import catgoryRouter from './routers/categories'
-import currencyRouter from './routers/currencies'
-import accountRounter from './routers/account'
-
-import dataSource from "./db/dataSource";
+import expenseRouter from './routers/expenses.js'
+import catgoryRouter from './routers/categories.js'
+import currencyRouter from './routers/currencies.js'
+import accountRounter from './routers/account.js'
+// import dataSource from "./db/dataSource.js";
 
 // import { Db } from "typeorm";
 
@@ -48,9 +46,9 @@ app.use(function (err: any, req: any, res: any, next: any) {
   });
   
 
-app.listen(PORT,() =>{
+app.listen(PORT,async() =>{
 console.log(`App is running and listening on port ${PORT} and host http://localhost:${PORT}`);
-db.initialize();
+await initialize();
 })
  
 export default app;

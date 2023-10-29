@@ -1,7 +1,7 @@
 import { type } from "os";
 import { BaseEntity, BeforeInsert, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import bcrypt from 'bcrypt'
-import { Expense } from "./expense";
+import { Expense } from "./expense.js";
 
 @Entity('Account')
 export class Account extends BaseEntity {
@@ -16,12 +16,12 @@ export class Account extends BaseEntity {
 
 
     @BeforeInsert()
-  async hashPassword() {
+    async hashPassword() {
     if (this.password) {
       this.password = await bcrypt.hash(this.password, 10)
     }
   }
-    @Column({ length: 25 ,nullable: false })
+    @Column({ nullable: false })
      password: string 
 
     @Column({nullable: false, length:80})
@@ -34,7 +34,7 @@ export class Account extends BaseEntity {
     })
     authintication_type: 'google'| 'no select' */
 
-    @OneToMany(()=>Expense, (expense)=>expense.account)
+    @OneToMany(()=>Expense, (expense)=>expense.account, {onDelete: "CASCADE"})
     expenses: Expense[]
     
 

@@ -1,6 +1,6 @@
 import { title } from "process";
 import { BaseEntity, ChangeStreamReplaceDocument, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Expense } from "./expense";
+import { Expense } from "./expense.js";
 
 @Entity('Currency')
 export class Currency extends BaseEntity{

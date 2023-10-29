@@ -47,6 +47,3 @@ jobs:
         DB_PORT: ${{ secrets.DB_PORT }} 
         currency_key_access: ${{ secrets.currency_key_access }} 
         PORT: ${{ secrets.PORT }} 
-    - name: print logs
-      if: always() # This step will be executed even if previous steps fails
-      run: docker compose logs

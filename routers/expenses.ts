@@ -1,21 +1,25 @@
 import express from 'express';
-// import { Category } from '../db/entity/category';
 import db from '../db/dataSource'
 import { Expense } from '../db/entity/expense';
 import multer from 'multer';
 import dataSource from '../db/dataSource';
-import { parse } from 'path';
+import { format, parse } from 'path';
 import { error, info } from 'console';
 import { Any } from 'typeorm';
 import { Decimal128 } from 'typeorm/browser';
 import { setFips } from 'crypto';
-import { execSync } from 'child_process';
 import { Currency } from '../db/entity/currency';
-// import uplouds from ""
-import {convert} from '../controllers/expenses';
-
 import dotenv from 'dotenv'
-import { RExpense } from '../@types/expense';
+import { accessSync } from 'fs';
+import { Category } from '../db/entity/category';
+import path from 'path';
+
+
+// import uplouds from ""
+// import {convert} from '../controllers/expenses';
+
+// import multer from 'multer';
+// import { RExpense } from '../@types/expense';
 
 
 dotenv.config()
@@ -23,47 +27,89 @@ dotenv.config()
 
 
 const router = express.Router();
-// router.use(express.json());
+router.use(express.json());
 
-const upload = multer({ dest: 'uploads/' })
+// const upload = multer({ dest: 'uploads/' })
 
 
-//** */
-router.get('/convert', async (req, res) => {
-    console.log("test")
-    let to =   req.query.to
-    const from = req.query.from
+//Set up Multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Set the directory where uploaded files will be stored
+    },
+    filename: (req, file, cb) => {
+        const fileExt = path.extname(file.originalname);
+        const filename = `${Date.now()}${fileExt}`;
+        cb(null, filename);
+    },
+});
 
-    const id = Number(req.query.id)
-    const expense = await Expense.findOneBy({id})
-          console.log('test1')
-          if (!expense) {
-            throw "Expense not found!";
-            console.log('test2')
-          }
-   
+const upload = multer({ storage });
 
-    convert(to, from )
-   .then(data => {
-    res.send(data.amountInTargetCurrency);
-  })
-  .catch(err => {
-    res.status(401).send(err);
-  })
+
+// Add expense ...POST
+router.post('/', async (req, res) => {
+    const newExpense = new Expense()
+    newExpense.name = req.body.name;
+    newExpense.description = req.body.description;
+    newExpense.amount = req.body.amount;
+    newExpense.category = req.body.categoryId;
+    newExpense.currency = req.body.currencyId;
+    newExpense.photo = req.body.attachment_recip;
+
+    console.log(req.file)
+    newExpense.save().then((response) => {
+        res.status(201).send(' New expense record added with ID:' + response.id);
+    }).catch(error => {
+        console.error(error);
+        res.status(500).send('Something went wrong');
+    });
 })
 
-router.get('/min', async (req: any, res: any) => {    
-    
-    const expense = await Expense.find({
-    })
-    const minAmount = Math.min(...expense.map(expense => expense.amount));
-    const expensemin =  Expense.minimum
-    console.log(expensemin)
-    console.log(minAmount)
+// Delete expense ...DELETE
+router.delete('/:id', async (req, res) => {
+    const id = Number(req.params.id);
+    const expense = await Expense.findOneBy({ id });
+    if (expense) {
+        expense.remove().then((response) => {
+            res.status(201).send('Delete expense successful :)');
+        }).catch(error => {
+            console.error(error);
+            res.status(500).send('Something went wrong');
+        });
+    }
+})
+
+// Edit expense ...PUT
+router.put('/:id', async (req: any, res: any) => {
+    const id = Number(req.params.id);
+    const expense = await Expense.findOneBy({ id });
+    if (expense) {
+        expense.name = req.body.name
+        expense.description = req.body.description;
+        expense.amount = req.body.amount;
+        expense.category = req.body.categoryId;
+        expense.currency = req.body.currencyId;
+        // expense.account = req.body.account;
+        expense.photo = req.body.attachment_recip;
+        expense.save().then((response) => {
+            res.status(201).send('Update expense successful :) ' + response.id);
+        }).catch(error => {
+            console.error(error);
+            res.status(500).send('Something went wrong');
+        });
+    }
+})
+
+// Read expense ...GET
+router.get('/', async (req: any, res: any) => {
+
+
+    const expense = await Expense.find()
     try {
         res.send({
-            minAmount:minAmount,
-                
+            total: expense.length,
+            expense,
         });
     } catch (error) {
         console.error(error);
@@ -71,17 +117,75 @@ router.get('/min', async (req: any, res: any) => {
     }
 })
 
-router.get('/max', async (req: any, res: any) => {    
-    
+
+
+// Convert amount ...GET
+router.get('/convert', async (req: any, res: any) => {
+
+    const id = Number(req.query.id)
+    const to = req.query.to
+    const expenseRecord = await Expense.findOneBy({
+        id
+    });
+    if (expenseRecord?.amount === undefined) {
+        return
+    }
+    let num = 0
+    const access_key = process.env.CURRENCY_KEY;
+    const url = `https://api.freecurrencyapi.com/v1/latest?apikey=${access_key}&currencies=${to}&base_currency=ILS`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            num = data.data[to]
+
+
+        }).then(() => {
+            try {
+                res.send({
+                    amount: expenseRecord?.amount,
+                    amountAfter: Number((num * expenseRecord?.amount).toFixed(2))
+                });
+                expenseRecord.save()
+            } catch (error) {
+                console.error(error);
+                res.status(500).send("Something went wrong!");
+            }
+        })
+
+})
+
+// Min amount ...GET
+router.get('/min', async (req: any, res: any) => {
+
+    const expense = await Expense.find({
+    })
+    const minAmount = Math.min(...expense.map(expense => expense.amount));
+    const expensemin = Expense.minimum
+    console.log(expensemin)
+    console.log(minAmount)
+    try {
+        res.send({
+            minAmount: minAmount,
+
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Something went wrong!");
+    }
+})
+
+// Max amount ...GET
+router.get('/max', async (req: any, res: any) => {
+
     const expense = await Expense.find({
     })
     const maxAmount = Math.max(...expense.map(expense => expense.amount));
-    const expensemin =  Expense.minimum
+    const expensemin = Expense.minimum
     console.log(expensemin)
     console.log(maxAmount)
     try {
         res.send({
-            minAmount:maxAmount,
+            minAmount: maxAmount,
             // expense.maxAmount
         });
     } catch (error) {
@@ -90,21 +194,149 @@ router.get('/max', async (req: any, res: any) => {
     }
 })
 
+// Total amount ...GET
+router.get('/analytics/budget', async (req: any, res: any) => {
+    const budget = await Expense.find({
+        select: {
+            amount: true
+        }
+    })
+    let sum = 0;
+    budget.map(element => {
+        sum += Number(element.amount)
+    })
+    res.send({ "Total Amount": sum })
+})
+
+//  all expenses in a selected date  ...GET
+router.get('/analytics/day', async (req: any, res: any) => {
+
+    const date = req.query.date;
+
+    try {
+        const expenses = await dataSource.AppDataSource
+            .getRepository(Expense)
+            .find({ where: { date } });
+
+        let sum = 0
+        expenses.map(element => {
+            sum += Number(element.amount)
+        })
+
+        res.send({
+            "Total amount for this date ": sum,
+            "Number of purchases ": expenses.length,
+            expenses
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred while fetching expenses.' });
+    }
+})
+
+// all expenses in a year selected  ...GET
+router.get('/analytics/year', async (req: any, res: any) => {
+    const type = req.query.type;
+    if (type) {
+        try {
+            const result = await dataSource.AppDataSource
+                .getRepository(Expense)
+                .createQueryBuilder('expense')
+                .select('SUM(expense.amount) AS Total of amount in a year')
+                .where('YEAR(expense.date) = :year', { year: type })
+                .getRawOne();
+            res.send({
+                result,
+            });
+        } catch (error) {
+            res.status(500).json({ error: 'An error occurred while calculating expenses for the specified year.' });
+        }
+    } else {
+        res.status(400).json({ error: 'Missing "type" parameter.' });
+    }
+});
+
+// all expenses in a month selected ...GET
+router.get('/analytics/month', async (req: any, res: any) => {
+    const monthValue = req.query.monthValue;
+
+    if (monthValue) {
+        try {
+            // Calculate the first and last day of the specified month
+            const year = parseInt(monthValue.substring(0, 4));
+            const month = parseInt(monthValue.substring(4, 6));
+            const firstDay = new Date(year, month - 1, 1);
+            const lastDay = new Date(year, month, 0);
+
+            const result = await dataSource.AppDataSource
+                .getRepository(Expense)
+                .createQueryBuilder('expense')
+                .select('SUM(expense.amount) AS Total')
+                .where('expense.date >= :firstDay', { firstDay })
+                .andWhere('expense.date <= :lastDay', { lastDay })
+                .getRawOne();
+
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: 'An error occurred while calculating expenses for the specified month.' });
+        }
+    } else {
+        res.status(400).json({ error: 'Missing "monthValue" parameter.' });
+    }
+});
+
+// all exprenses in category that selected ...GET
+router.get('/analytics/category', async (req, res) => {
+    const categoryName = req.query.categoryName;
+
+    if (categoryName) {
+        try {
+            // Calculate the total amount for the specified category
+            const totalAmountResult = await dataSource.AppDataSource
+                .getRepository(Expense)
+                .createQueryBuilder('expense')
+                .select('SUM(expense.amount) AS total')
+                .where('expense.category = :categoryName', { categoryName })
+                .getRawOne();
+
+            // Count the number of records for the specified category
+            const recordCountResult = await dataSource.AppDataSource
+                .getRepository(Expense)
+                .createQueryBuilder('expense')
+                .select('COUNT(expense.id) AS count')
+                .where('expense.category = :categoryName', { categoryName })
+                .getRawOne();
+
+            // const expense = await Expense.findBy({ category:true })
+
+            res.json({
+                totalAmount: totalAmountResult.total,
+                recordCount: recordCountResult.count,
+                // expense
+            });
+        } catch (error) {
+            res.status(500).json({ error: 'An error occurred while calculating category analytics.' });
+        }
+    } else {
+        res.status(400).json({ error: 'Missing "categoryName" parameter.' });
+    }
+});
+
+
 // router.get('/expenses/analytics/total_amount', async (req, res) => {
 
 //     try {
 //       const fromDate =  new Date(req.query.fromDate); // Date format for start date
 //       const toDate = req.query.toDate;     // Date format for end date
 //       const targetCurrency = req.query.currency;     // Target currency code
-  
+
 //       // Find expenses within the specified date range
 //       const expenses = await Expense.find({
 //         // date: {  fromDate,  toDate },
 //       });
-  
+
 //       // Initialize the total amount
 //       let totalAmount = 0;
-  
+
 //       // Iterate through expenses and convert to the target currency
 //       for (const expense of expenses) {
 //         const access_key = process.env.currency_key_access;
@@ -112,15 +344,15 @@ router.get('/max', async (req: any, res: any) => {
 //         const response = await fetch(url);
 //         const data = await response.json();
 //         const num = data.data['targetCurrency'];
-  
+
 //         if (num === undefined) {
 //           throw "Invalid target currency!";
 //         }
-  
+
 //         const convertedAmount = Number((num * expense.amount).toFixed(2));
 //         totalAmount += convertedAmount;
 //       }
-  
+
 //       res.json({ totalAmount });
 //     } catch (error) {
 //       console.error(error);
@@ -140,22 +372,44 @@ router.get('/max', async (req: any, res: any) => {
 
 
 
-router.post('/upload', upload.single('image'), (req, res) => {
-    // var data={'filename': req.file.filename};
-    if (!req.file) {
-        res.status(500).send("Failed Upload File!");
-        return;
-      }
-    
-      const fileURL = req.file.destination + req.file.filename +req.file.size;
-      res.send({
-        message: 'File Uploaded Successfully!',
-        file: fileURL,
-    })
-    
-        console.log(req.file)
-})
+// router.post('/upload', upload.single('image'), (req, res) => {
+//     // var data={'filename': req.file.filename};
+//     if (!req.file) {
+//         res.status(500).send("Failed Upload File!");
+//         return;
+//     }
 
+//     const fileURL = req.file.destination + req.file.filename + req.file.size;
+//     res.send({
+//         message: 'File Uploaded Successfully!',
+//         file: fileURL,
+//     })
+
+//     console.log(req.file)
+// })
+
+
+// router.post('/', upload.single('photo'), async (req, res) => {
+//     try {
+//         // Parse the request data
+//         const { name, description, amount, category ,currency} = req.body;
+//         // Create a new Expense record
+//         const newExpense = new Expense();
+//         newExpense.name= name
+//         newExpense.description = description;
+//         newExpense.amount = amount;
+//         newExpense.category = category;
+//         newExpense.currency= currency
+//         // newExpense.photo = req.file ? req.file.filename :null;
+
+//         // Save the new expense to the database
+//         await dataSource.AppDataSource.getRepository(Expense).save(newExpense);
+
+//         res.json({ message: 'Expense record created successfully.' });
+//     } catch (error) {
+//         res.status(500).json({ error: 'An error occurred while creating the expense record.' });
+//     }
+// });
 
 
 

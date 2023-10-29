@@ -46,4 +46,4 @@ jobs:
         DB_NAME: ${{ secrets.DB_NAME }}
         DB_PORT: ${{ secrets.DB_PORT }} 
         currency_key_access: ${{ secrets.currency_key_access }} 
-        PORT: ${{ secrets.PORT }} 
+        PORT: ${{ secrets.PORT }}

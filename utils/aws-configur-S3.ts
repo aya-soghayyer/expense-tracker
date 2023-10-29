@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 
-const configureS3Bucket = async () => {
+const ToS3Bucket = async () => {
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
@@ -20,4 +20,4 @@ const configureS3Bucket = async () => {
     return S3;
 }
 
-export { configureS3Bucket };
+export { ToS3Bucket };

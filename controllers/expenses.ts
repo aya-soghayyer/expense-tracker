@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import fetch, { Request } from "node-fetch"
 import { AnyARecord } from "dns";
 import { EntityId } from "typeorm/repository/EntityId.js";
-import { RExpense } from "../@types/expense";
+// import { RExpense } from "../@types/expense";
 
 
 
@@ -13,50 +13,50 @@ dotenv.config()
 
 
 
-const convert = async ( to:any , from:any ) => {
+// const convert = async ( to:any , from:any ) => {
   
-  // try {
-  //   const access_key = process.env.currency_key_access;
-  //   const expense = await Expense.findOne({ where: {
-  //     id: Id,
-  // }, });
-  //   console.log('test1')
-  //   if (!expense) {
-  //     throw "Expense not found!";
-  //     console.log('test2')
-  //   }
+//   try {
+//     const access_key = process.env.currency_key_access;
+//     const expense = await Expense.findOne({ where: {
+//       id: Id,
+//   }, });
+//     console.log('test1')
+//     if (!expense) {
+//       throw "Expense not found!";
+//       console.log('test2')
+//     }
     
-  //   const url = `https://api.freecurrencyapi.com/v1/latest?apikey=${access_key}&currencies=${to}&base_currency=${from}}`;
-  //   console.log('test3')
-  //   const response = await fetch(url);
-  //   console.log('test***')
-  //   const data1 = await response.json();  
-  //   console.log(data1)
-  //   console.log('test3.1')
-  //   const num = data1.data[to];
-  //   console.log(num)
-  //   console.log('test4')
-  //   if (num === undefined) {
-  //     throw "Invalid target currency!";
-  //   }
+//     const url = `https://api.freecurrencyapi.com/v1/latest?apikey=${access_key}&currencies=${to}&base_currency=${from}}`;
+//     console.log('test3')
+//     const response = await fetch(url);
+//     console.log('test***')
+//     const data1 = await response.json();  
+//     console.log(data1)
+//     console.log('test3.1')
+//     const num = data1.data[to];
+//     console.log(num)
+//     console.log('test4')
+//     if (num === undefined) {
+//       throw "Invalid target currency!";
+//     }
 
-  //   const amountInTargetCurrency = Number((num * expense.amount).toFixed(2));
+//     const amountInTargetCurrency = Number((num * expense.amount).toFixed(2));
 
-  //   return {
-  //     id: expense.id,
-  //     amount: expense.amount,
-  //     currency: to,
-  //     amountInTargetCurrency,
+//     return {
+//       id: expense.id,
+//       amount: expense.amount,
+//       currency: to,
+//       amountInTargetCurrency,
       
-  //   };
-  //   console.log('test5')
-  // } catch (error) {
-  //   console.error(error);
-  //   throw "Something went wrong!";
-  // }
+//     };
+//     console.log('test5')
+//   } catch (error) {
+//     console.error(error);
+//     throw "Something went wrong!";
+//   }
  
 
-};
+// };
 
 
 
@@ -73,4 +73,4 @@ function getTotalExpensesByYear(expenses :any) {
   return totalExpensesByYear;
 }
 
-export  {convert , getTotalExpensesByYear };
+export  { getTotalExpensesByYear };

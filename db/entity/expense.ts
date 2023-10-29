@@ -21,12 +21,13 @@ export class Expense extends BaseEntity{
 
     @CreateDateColumn({
         type: 'timestamp',
-        default: () => "CURRENT_TIMESTAMP()"
+        default: () => "CURRENT_TIMESTAMP(6)"
+        
     })
     date: Date
 
     @Column({length: 80 , nullable:true})
-    attachment_recip:string 
+    photo:string 
     
     @ManyToOne(()=>Currency,(currency)=>currency.expenses)
     currency: Currency

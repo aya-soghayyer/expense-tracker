@@ -50,7 +50,14 @@ Register with new personal account
 | password | string | password for the new account |
 | email | string | email for the new account |
 #### Responses
-- 201
+- **201** "success"
+```
+{
+"userName": "Tarteel",
+"email": "tarteel.ghassan1@gmail.com",
+"password": "1234$djdknoi"
+}
+```   
 - **400** "All fields are required"
 - **500** "Internal server error"
 ---
@@ -60,12 +67,16 @@ Login with a personal account
 #### Request Body
 | **Field**  | **Type** | **Description** |
 | :---: | :---: | :---: |
-|   |   |
-|  |  |
+| email | string | email for login the account |
+| password | string | password for login the account |
+
 #### Responses
-- 201
-- 400
-- 500
+- **200**
+```
+
+``` 
+- **400** "Invalid email or password"
+- **500** "Internal server error"
 ---
 ### Endpoint: GET `/expense-tracker/logout `
 #### Description
@@ -76,8 +87,10 @@ To logout from the account
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+
+```   
 ---
 ### Endpoint: DELETE `/expense-tracker/`
 #### Description
@@ -88,8 +101,11 @@ To delete the account
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+
+```  
+- **500** :'Internal Server Error'
 ***
 ***
 ## Expense Routes🛍️:

@@ -41,7 +41,7 @@ it’s a web app for storing all your money activities you can also know when an
 ## Endpoints 🌌 :
 ### Account Routes💻:
 ---
-#### Endpoint:...
+#### Endpoint: POST `/expense-tracker/signup `
 ##### Description
 ##### Request Body
 ##### Responses
@@ -49,7 +49,7 @@ it’s a web app for storing all your money activities you can also know when an
 - 400
 - 500
 ---
-#### Endpoint:...
+#### Endpoint: POST `/expense-tracker/login `
 ##### Description
 ##### Request Body
 ##### Responses
@@ -57,14 +57,14 @@ it’s a web app for storing all your money activities you can also know when an
 - 400
 - 500
 ---
-#### Endpoint:...
+#### Endpoint: GET `/expense-tracker/logout `
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: DELETE `/expense-tracker/`
 ##### Description
 ##### Request Body
 ##### Responses
@@ -74,66 +74,116 @@ it’s a web app for storing all your money activities you can also know when an
 ***
 ### Expense Routes🛍️:
 ---
-#### Endpoint:...
+#### Endpoint: POST `/`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: DELETE `/:id`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: PUT `/:id`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: GET `/`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
+---
+#### Endpoint: GET `/convert`
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint: GET `/min`
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint: GET `/max`
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint: GET `/analytics/budget`
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint: GET `/analytics/day`
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint: GET `/analytics/year`
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint: 
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
 ***
 ***
 ### Currency Routes💱:
 ---
-#### Endpoint:...
+#### Endpoint: POST `/`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: DELETE `/:id`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: PUT `/:id`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: GET `/search`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: GET `\`
 ##### Description
 ##### Request Body
 ##### Responses
@@ -143,35 +193,35 @@ it’s a web app for storing all your money activities you can also know when an
 ***
 ### Category Routes🔖:
 ---
-#### Endpoint:...
+#### Endpoint: POST `/`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: DELETE `/:id`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: PUT `/:id`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: GET `/search`
 ##### Description
 ##### Request Body
 ##### Responses
 -
 -
 ---
-#### Endpoint:...
+#### Endpoint: GET `/`
 ##### Description
 ##### Request Body
 ##### Responses

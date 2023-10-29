@@ -183,7 +183,7 @@ it’s a web app for storing all your money activities you can also know when an
 -
 -
 ---
-#### Endpoint: GET `\`
+#### Endpoint: GET `/`
 ##### Description
 ##### Request Body
 ##### Responses

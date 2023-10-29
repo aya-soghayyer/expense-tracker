@@ -2,7 +2,7 @@
 
 ## Main Project Information 📝:
 
-| Project Name:  |  Expense Tracker |
+| **Project Name:**  |  **Expense Tracker** |
 | :---: | :---: |
 | Team Name:  |  intersellarCode 🪐 |
 | Team Members: | Tarteel Natsheh , Aya Soghayyer |
@@ -40,20 +40,28 @@ it’s a web app for storing all your money activities you can also know when an
 
 ## Endpoints 🌌 :
 ## Account Routes💻:
----
 ### Endpoint: POST `/expense-tracker/signup `
 #### Description 
 Register with new personal account
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+| userName | string | usermane for the new account |
+| password | string | password for the new account |
+| email | string | email for the new account |
 #### Responses
 - 201
-- 400
-- 500
+- **400** "All fields are required"
+- **500** "Internal server error"
 ---
 ### Endpoint: POST `/expense-tracker/login `
 #### Description
 Login with a personal account
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 - 201
 - 400
@@ -63,6 +71,10 @@ Login with a personal account
 #### Description
 To logout from the account
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -71,17 +83,24 @@ To logout from the account
 #### Description
 To delete the account
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
 ***
 ***
 ## Expense Routes🛍️:
----
 ### Endpoint: POST `/`
 #### Description
 for adding a new record and photo if user need
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -90,6 +109,10 @@ for adding a new record and photo if user need
 #### Description
 for deleting the record
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -98,6 +121,10 @@ for deleting the record
 #### Description
 to edit the  record
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -106,6 +133,10 @@ to edit the  record
 #### Description
 show the data of records
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -114,6 +145,10 @@ show the data of records
 #### Description
 convert  currency to other currency with amount 
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -122,6 +157,10 @@ convert  currency to other currency with amount
 #### Description
 get  minimum category that have selected
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -130,6 +169,10 @@ get  minimum category that have selected
 #### Description
 get  maximum category that have selected
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -138,6 +181,10 @@ get  maximum category that have selected
 #### Description
 return the budget
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -146,6 +193,10 @@ return the budget
 #### Description
 return the total expenses for a day in the dataset.
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -154,6 +205,10 @@ return the total expenses for a day in the dataset.
 #### Description
 return the total expenses for each year in the dataset.
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -162,6 +217,10 @@ return the total expenses for each year in the dataset.
 #### Description
 return the total expenses for each month in the  dataset.
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -170,17 +229,24 @@ return the total expenses for each month in the  dataset.
 #### Description
 search of records via categoryName selected , put the total amount of category and length of number of records
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
 ***
 ***
 ## Currency Routes💱:
----
 ### Endpoint: POST `/`
 #### Description
 adding new currency
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -189,6 +255,10 @@ adding new currency
 #### Description
 delete currency by id 
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -197,6 +267,10 @@ delete currency by id
 #### Description
 edit  the currency name 
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -205,6 +279,10 @@ edit  the currency name
 #### Description
 search about currency by sub string that is contained in the currency name
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -213,17 +291,24 @@ search about currency by sub string that is contained in the currency name
 #### Description
 get all currencies with total number of currencies
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
 ***
 ***
 ## Category Routes🔖:
----
 ### Endpoint: POST `/`
 #### Description
 adding new category
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -232,6 +317,10 @@ adding new category
 #### Description
 delete category by id 
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -240,6 +329,10 @@ delete category by id
 #### Description
 edit  the category name 
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -248,6 +341,10 @@ edit  the category name
 #### Description
 search about category by sub string that is contained in the category name
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -
@@ -256,6 +353,10 @@ search about category by sub string that is contained in the category name
 #### Description
 get all categories with total number of categories
 #### Request Body
+| **Field**  | **Type** | **Description** |
+| :---: | :---: | :---: |
+|   |   |
+|  |  |
 #### Responses
 -
 -

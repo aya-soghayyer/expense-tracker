@@ -33,7 +33,7 @@ jobs:
     - name: configure docker host
       uses: khaledez/configure-docker-host@v2 
       with:
-        host: 13.40.128.225
+        host: 13.40.151.162
         user: ubuntu
         ssh-private-key: ${{ secrets.DEPLOYMENT_KEY }}
     - name: deploy

@@ -1,10 +1,10 @@
 import { DataSource } from "typeorm";
 // import { Business } from "./entity/businessAcc";
-import { Expense } from "./entity/expense";
+import { Expense } from "./entity/expense.js";
 // import { Personal } from "./entity/personalAcc";
-import { Currency } from "./entity/currency";
-import { Category } from "./entity/category";
-import { Account } from "./entity/account";
+import { Currency } from "./entity/currency.js";
+import { Category } from "./entity/category.js";
+import { Account } from "./entity/account.js";
 import dotenv from 'dotenv'
 
 
@@ -31,4 +31,4 @@ const AppDataSource = new DataSource({
         console.error("Error during Data Source initialization", err)
     })
 }
-  export default {AppDataSource, initialize };
+  export  {AppDataSource, initialize };

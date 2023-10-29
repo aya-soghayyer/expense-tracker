@@ -1,5 +1,5 @@
 import { Any } from "typeorm";
-import { Expense } from "../db/entity/expense";
+import { Expense } from "../db/entity/expense.js";
 import dotenv from 'dotenv'
 import fetch, { Request } from "node-fetch"
 import { AnyARecord } from "dns";

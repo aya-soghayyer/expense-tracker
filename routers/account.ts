@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 const router = express.Router();
 
 // Signup account ..POST.. 
-router.post("/expense-tracker/signup", async (req: express.Request, res: express.Response) => {
+router.post("/signup", async (req: express.Request, res: express.Response) => {
   try {
     if (req.body.userName && req.body.password && req.body.email) {
       const sign = await signup(req.body);
@@ -27,7 +27,7 @@ router.post("/expense-tracker/signup", async (req: express.Request, res: express
 });
 
 // Login account ..POST..
-router.post("/expense-tracker/login", async (req: express.Request, res: express.Response) => {
+router.post("/login", async (req: express.Request, res: express.Response) => {
   try {
     if (req.body.email && req.body.password) {
       const log = await login(req.body)
@@ -45,12 +45,12 @@ router.post("/expense-tracker/login", async (req: express.Request, res: express.
 });
 
 // Logout account ..GET..
-router.get("/expense-tracker/logout", async (req, res) => {
+router.get("/logout", async (req, res) => {
   res.status(200).json("Account logged out successfully");
 });
 
 // Delete account ..DELETE..
-router.delete("/expense-tracker/", authenticate, async (req: ExpressNS.RequestWithAccount, res: express.Response) => {
+router.delete("/", authenticate, async (req: ExpressNS.RequestWithAccount, res: express.Response) => {
  try {
   const account = req.account;
 

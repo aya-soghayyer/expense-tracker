@@ -1,8 +1,8 @@
 import { text } from "stream/consumers";
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Currency } from "./currency";
-import { Category } from "./category";
-import { Account } from "./account";
+import { Currency } from "./currency.js";
+import { Category } from "./category.js";
+import { Account } from "./account.js";
 
 @Entity('Expense')
 export class Expense extends BaseEntity{
@@ -27,15 +27,15 @@ export class Expense extends BaseEntity{
     date: Date
 
     @Column({length: 80 , nullable:true})
-    photo:string 
+    photo:string
     
-    @ManyToOne(()=>Currency,(currency)=>currency.expenses)
+    @ManyToOne(()=>Currency,(currency)=>currency.expenses , {onDelete:"CASCADE"})
     currency: Currency
 
-    @ManyToOne(()=>Category, (category)=>category.expenses)
+    @ManyToOne(()=>Category, (category)=>category.expenses , {onDelete:"CASCADE"})
     category:Category
 
-    @ManyToOne(()=>Account, (account)=> account.expenses)
+    @ManyToOne(()=>Account, (account)=> account.expenses , {onDelete:"CASCADE"})
     account: Account
 
     

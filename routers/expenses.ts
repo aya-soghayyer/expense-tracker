@@ -1,17 +1,17 @@
 import express from 'express';
-import db from '../db/dataSource'
-import { Expense } from '../db/entity/expense';
+// import db from '../db/dataSource.js'
+import { Expense } from '../db/entity/expense.js';
 import multer from 'multer';
-import dataSource from '../db/dataSource';
+import {AppDataSource as db} from '../db/dataSource.js';
 import { format, parse } from 'path';
 import { error, info } from 'console';
 import { Any } from 'typeorm';
 import { Decimal128 } from 'typeorm/browser';
 import { setFips } from 'crypto';
-import { Currency } from '../db/entity/currency';
+import { Currency } from '../db/entity/currency.js';
 import dotenv from 'dotenv'
 import { accessSync } from 'fs';
-import { Category } from '../db/entity/category';
+import { Category } from '../db/entity/category.js';
 import path from 'path';
 
 
@@ -45,6 +45,27 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+router.post('/', upload.single('photo'), async (req, res) => {
+    try {
+        // Parse the request data
+        const { name, description, amount, category ,currency} = req.body;
+        // Create a new Expense record
+        const newExpense = new Expense();
+        newExpense.name= name
+        newExpense.description = description;
+        newExpense.amount = amount;
+        newExpense.category = category;
+        newExpense.currency= currency
+        newExpense.photo = req.file ? req.file.filename : "" ;
+
+        // Save the new expense to the database
+        await db.getRepository(Expense).save(newExpense);
+
+        res.json({ message: 'Expense record created successfully.' });
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred while creating the expense record.' });
+    }
+});
 
 
 // Add expense ...POST
@@ -214,7 +235,7 @@ router.get('/analytics/day', async (req: any, res: any) => {
     const date = req.query.date;
 
     try {
-        const expenses = await dataSource.AppDataSource
+        const expenses = await db
             .getRepository(Expense)
             .find({ where: { date } });
 
@@ -238,7 +259,7 @@ router.get('/analytics/year', async (req: any, res: any) => {
     const type = req.query.type;
     if (type) {
         try {
-            const result = await dataSource.AppDataSource
+            const result = await db
                 .getRepository(Expense)
                 .createQueryBuilder('expense')
                 .select('SUM(expense.amount) AS Total of amount in a year')
@@ -267,7 +288,7 @@ router.get('/analytics/month', async (req: any, res: any) => {
             const firstDay = new Date(year, month - 1, 1);
             const lastDay = new Date(year, month, 0);
 
-            const result = await dataSource.AppDataSource
+            const result = await db
                 .getRepository(Expense)
                 .createQueryBuilder('expense')
                 .select('SUM(expense.amount) AS Total')
@@ -291,7 +312,7 @@ router.get('/analytics/category', async (req, res) => {
     if (categoryName) {
         try {
             // Calculate the total amount for the specified category
-            const totalAmountResult = await dataSource.AppDataSource
+            const totalAmountResult = await db
                 .getRepository(Expense)
                 .createQueryBuilder('expense')
                 .select('SUM(expense.amount) AS total')
@@ -299,7 +320,7 @@ router.get('/analytics/category', async (req, res) => {
                 .getRawOne();
 
             // Count the number of records for the specified category
-            const recordCountResult = await dataSource.AppDataSource
+            const recordCountResult = await db
                 .getRepository(Expense)
                 .createQueryBuilder('expense')
                 .select('COUNT(expense.id) AS count')
@@ -389,27 +410,6 @@ router.get('/analytics/category', async (req, res) => {
 // })
 
 
-// router.post('/', upload.single('photo'), async (req, res) => {
-//     try {
-//         // Parse the request data
-//         const { name, description, amount, category ,currency} = req.body;
-//         // Create a new Expense record
-//         const newExpense = new Expense();
-//         newExpense.name= name
-//         newExpense.description = description;
-//         newExpense.amount = amount;
-//         newExpense.category = category;
-//         newExpense.currency= currency
-//         // newExpense.photo = req.file ? req.file.filename :null;
-
-//         // Save the new expense to the database
-//         await dataSource.AppDataSource.getRepository(Expense).save(newExpense);
-
-//         res.json({ message: 'Expense record created successfully.' });
-//     } catch (error) {
-//         res.status(500).json({ error: 'An error occurred while creating the expense record.' });
-//     }
-// });
 
 
 

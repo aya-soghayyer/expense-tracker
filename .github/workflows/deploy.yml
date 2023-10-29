@@ -33,8 +33,8 @@ jobs:
     - name: configure docker host
       uses: khaledez/configure-docker-host@v2 
       with:
-        host: 3.8.49.253
-        user: ubuntu
+        host: 13.40.151.162
+        user: github
         ssh-private-key: ${{ secrets.DEPLOYMENT_KEY }}
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d
@@ -46,7 +46,4 @@ jobs:
         DB_NAME: ${{ secrets.DB_NAME }}
         DB_PORT: ${{ secrets.DB_PORT }} 
         currency_key_access: ${{ secrets.currency_key_access }} 
-        PORT: ${{ secrets.PORT }} 
-    - name: print logs
-      if: always() # This step will be executed even if previous steps fails
-      run: docker compose logs
+        PORT: ${{ secrets.PORT }}

@@ -1,4 +1,4 @@
-# welcome to money lover and saver website 💸❤️‍🔥
+# Welcome to money lover and saver website 💸❤️‍🔥
 
 ## Main Project Information 📝:
 
@@ -29,4 +29,161 @@ it’s a web app for storing all your money activities you can also know when an
 - record all expense updates 
 - Search for some  analytics 
 - submit  some attachments
+
+## AWS Services to be Used ☁️:
+
+- **EC2:** For deploying the main Express.js server.
+- **RDS:** To manage relational databases for our models.
+- **S3:** For storing static files and images.
+- **ASG:** Auto Scaling Group, ASGs help ensure that your application can handle varying levels of load by automatically adding or removing instances as needed.
+- **LB:**  Load Balancer, Load balancers help improve the availability, scalability, and reliability of applications by evenly distributing requests.
+
+## Endpoints 🌌 :
+### Account Routes💻:
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+- 201
+- 400
+- 500
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+- 201
+- 400
+- 500
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+***
+***
+### Expense Routes🛍️:
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+***
+***
+### Currency Routes💱:
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+***
+***
+### Category Routes🔖:
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+---
+#### Endpoint:...
+##### Description
+##### Request Body
+##### Responses
+-
+-
+## Relations 🖇 :
+| Model Name | Attributes  | Relations |
+| --- | --- | --- |
+| expense  | id, name , date, category_id, amount, description, attached receipts, currency_id, , user_id, account_id  | many  to one with user , many to one  with currency, one to many with category,many to one with account  |
+| category  | id, title | one to many with expense  |
+| currency | id, title, symbol | one to many with expense, one to many category  |
+| account  | id, avetar , username, email, password, , authuntication_type  | one to many with expense, many to one with business_account, many to one with personal_account  |
+---
+![image](https://github.com/TarteelGH/expense-tracker/assets/114241640/2d080793-34b5-4658-aabf-aead7bcd80c9)
 

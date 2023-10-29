@@ -34,7 +34,7 @@ jobs:
       uses: khaledez/configure-docker-host@v2 
       with:
         host: 13.40.151.162
-        user: ubuntu
+        user: github
         ssh-private-key: ${{ secrets.DEPLOYMENT_KEY }}
     - name: deploy
       run: docker compose -f docker-compose-prod.yml up -d

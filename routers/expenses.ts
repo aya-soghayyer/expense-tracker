@@ -13,13 +13,13 @@ import dotenv from 'dotenv'
 import { accessSync } from 'fs';
 import { Category } from '../db/entity/category.js';
 import path from 'path';
+import { Account } from '../db/entity/account.js';
+import { getIdForAccount } from '../controllers/account.js';
+import { connect } from 'http2';
+import { login } from '../controllers/account.js';
 
 
-// import uplouds from ""
-// import {convert} from '../controllers/expenses';
 
-// import multer from 'multer';
-// import { RExpense } from '../@types/expense';
 
 
 dotenv.config()
@@ -45,47 +45,35 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-router.post('/', upload.single('photo'), async (req, res) => {
+
+
+
+// Add expense ...POST
+router.post('/', upload.single('photo'), async (req:any, res:any) => {
     try {
-        // Parse the request data
-        const { name, description, amount, category ,currency} = req.body;
+        const { name ,description, amount } = req.body;
+        const photo = req.file ? req.file.filename : null;
+
         // Create a new Expense record
         const newExpense = new Expense();
-        newExpense.name= name
+        newExpense.name = name
         newExpense.description = description;
         newExpense.amount = amount;
-        newExpense.category = category;
-        newExpense.currency= currency
-        newExpense.photo = req.file ? req.file.filename : "" ;
-
+        newExpense.category = req.body.categoryId;
+        newExpense.currency= req.body.currencyId
+        newExpense.photo = photo;
+        // newExpense.account= 
         // Save the new expense to the database
         await db.getRepository(Expense).save(newExpense);
-
-        res.json({ message: 'Expense record created successfully.' });
+        
+        res.status(201).send(' New expense record added with ID:' + newExpense.id);
     } catch (error) {
-        res.status(500).json({ error: 'An error occurred while creating the expense record.' });
+        console.error(error);
+        res.status(500).send('An error occurred while creating the expense record.');
     }
 });
 
 
-// Add expense ...POST
-router.post('/', async (req, res) => {
-    const newExpense = new Expense()
-    newExpense.name = req.body.name;
-    newExpense.description = req.body.description;
-    newExpense.amount = req.body.amount;
-    newExpense.category = req.body.categoryId;
-    newExpense.currency = req.body.currencyId;
-    newExpense.photo = req.body.attachment_recip;
-
-    console.log(req.file)
-    newExpense.save().then((response) => {
-        res.status(201).send(' New expense record added with ID:' + response.id);
-    }).catch(error => {
-        console.error(error);
-        res.status(500).send('Something went wrong');
-    });
-})
 
 // Delete expense ...DELETE
 router.delete('/:id', async (req, res) => {
@@ -411,7 +399,12 @@ router.get('/analytics/category', async (req, res) => {
 
 
 
-
+function isAuthenticated(req:any, res:any, next:any){
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.status(401).json({ error: 'Not authenticated' });
+}
 
 
 

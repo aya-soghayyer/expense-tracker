@@ -44,7 +44,7 @@ const login = async (payload: AccountNS.Account) => {
 const deleteAccount = async (accountIn: AccountNS.Account) => {
   try {
     const account = await Account.findOneBy({ id: accountIn.id });
-    if (!account) throw new Error("User not found");
+    if (!account) throw new Error("Account not found");
    const deleteAccount = await account.remove();
    return "delete account successful :)"
   } catch (err) {

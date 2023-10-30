@@ -1,11 +1,16 @@
-FROM node:latest
+FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /user/app
+COPY package.json package-lock.json ./
 
-COPY package*.json ./
+RUN npm ci
 
-RUN npm install
+RUN apk add curl
 
-COPY . .
+ADD . .
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+HEALTHCHECK --interval=10s --timeout=3s \
+    CMD curl -f http://localhost/ || exit 1
+
+CMD node ./dist/index.js

@@ -27,6 +27,7 @@ export class Account extends BaseEntity {
     @Column({nullable: false, length:80})
     email:string
     
+  
    /* @Column({
         type: "enum",
         enum:['google' , 'no select'],

@@ -22,7 +22,6 @@ export class Expense extends BaseEntity{
     @CreateDateColumn({
         type: 'timestamp',
         default: () => "CURRENT_TIMESTAMP(6)"
-        
     })
     date: Date
 
@@ -35,7 +34,11 @@ export class Expense extends BaseEntity{
     @ManyToOne(()=>Category, (category)=>category.expenses , {onDelete:"CASCADE"})
     category:Category
 
-    @ManyToOne(()=>Account, (account)=> account.expenses , {onDelete:"CASCADE"})
+    @ManyToOne(()=>Account, (account)=> account.expenses ,  {
+        eager: false,
+        onDelete: 'CASCADE',  // SET NULL// RESTRICT
+        onUpdate: 'CASCADE'
+      })
     account: Account
 
     

@@ -4,8 +4,16 @@ import { authenticate } from '../middleware/auth.js';
 // import { Account } from '../db/entity/account';
 import { ExpressNS } from '../@types/index.js';
 import jwt from 'jsonwebtoken';
+import passport, { session } from "passport"
+import { Account } from 'aws-sdk';
+import FacebookStrategy from "passport-facebook"
+import { getRepository } from 'typeorm';
+import { Session } from 'inspector';
 
 const router = express.Router();
+// router.use(passport.initialize());
+// router.use(passport.session());
+// router.use(session({ secrete: 'your_secret_key', resave: true, saveUninitialized: true }));
 
 // Signup account ..POST.. 
 router.post("/signup", async (req: express.Request, res: express.Response) => {
@@ -74,5 +82,41 @@ router.delete("/", authenticate, async (req: ExpressNS.RequestWithAccount, res: 
    res.status(500).send('Internal Server Error');
   } 
  });
+
+
+//  passport.use(new FacebookStrategy({
+//   clientID: 'your_facebook_app_id',
+//   clientSecret: 'your_facebook_app_secret',
+//   callbackURL: 'http://localhost:3000/auth/facebook/callback',
+// }, (token, tokenSecret, profile, done) => {
+//   // Check if the user is already registered in your database
+//   const userRepository = getRepository(Account);
+//   userRepository.findOne({ facebookId: profile.id })
+//       .then(account => {
+//           if (account) {
+//               return done(null, account);
+//           } else {
+//               // User is not registered, create a new user
+//               const newUser = new Account();
+//               newUser.facebookId = profile.id;
+//               // You may also save other user data from the profile
+//               userRepository.save(newUser)
+//                   .then(account => {
+//                       return done(null, account);
+//                   })
+//                   .catch(err => {
+//                       return done(err);
+//                   });
+//           }
+//       })
+//       .catch(err => {
+//           return done(err);
+//       });
+// }));
+
+ 
+ 
+
+
 
 export default router;

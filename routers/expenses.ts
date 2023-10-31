@@ -17,6 +17,9 @@ import { Account } from '../db/entity/account.js';
 import { getIdForAccount } from '../controllers/account.js';
 import { connect } from 'http2';
 import { login } from '../controllers/account.js';
+import { request } from 'http';
+import { ToS3Bucket } from '../utils/aws-configur-S3.js';
+import { authenticate } from '../middleware/auth.js';
 
 
 
@@ -49,11 +52,10 @@ const upload = multer({ storage });
 
 
 // Add expense ...POST
-router.post('/', upload.single('photo'), async (req:any, res:any) => {
+router.post('/',authenticate,  upload.single('photo'), async (req:any, res:any) => {
     try {
         const { name ,description, amount } = req.body;
-        const photo = req.file ? req.file.filename : null;
-
+        const photo = req.file ? req.file.filename : "";
         // Create a new Expense record
         const newExpense = new Expense();
         newExpense.name = name
@@ -61,9 +63,14 @@ router.post('/', upload.single('photo'), async (req:any, res:any) => {
         newExpense.amount = amount;
         newExpense.category = req.body.categoryId;
         newExpense.currency= req.body.currencyId
+        newExpense.account = req.account
+        const S3 = await ToS3Bucket()
+        const data = await S3.upload(photo).promise();
+        console.log(data)   
         newExpense.photo = photo;
-        // newExpense.account= 
+     
         // Save the new expense to the database
+        // console.log(req.account)
         await db.getRepository(Expense).save(newExpense);
         
         res.status(201).send(' New expense record added with ID:' + newExpense.id);
@@ -72,6 +79,42 @@ router.post('/', upload.single('photo'), async (req:any, res:any) => {
         res.status(500).send('An error occurred while creating the expense record.');
     }
 });
+
+
+// router.post('/', authenticate , upload.single('photo'), async (req, res) => {
+//     try {
+//         const { name, description, amount } = req.body;
+//         const photo = req.file ? req.file.filename : " ";
+
+//         // Assuming the authenticated user's account is available in req.user
+//         if(req.user===undefined){
+//             return
+//         }
+//         const accountId = req.user;
+
+//         // Create a new Expense record
+//         const newExpense = new Expense();
+//         newExpense.name = name;
+//         newExpense.description = description;
+//         newExpense.amount = amount;
+//         newExpense.category = req.body.categoryId;
+//         newExpense.currency = req.body.currencyId;
+//         newExpense.account =  ; // Associate the account ID
+
+//         // Continue with your S3 upload and database save process
+//         const S3 = await ToS3Bucket();
+//         const data = await S3.upload(photo).promise();
+//         newExpense.photo = photo;
+
+//         // Save the new expense to the database
+//         await db.getRepository(Expense).save(newExpense);
+
+//         res.status(201).send('New expense record added with ID: ' + newExpense.id);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('An error occurred while creating the expense record.');
+//     }
+// });
 
 
 
@@ -111,21 +154,63 @@ router.put('/:id', async (req: any, res: any) => {
 })
 
 // Read expense ...GET
+// router.get('/', async (req: any, res: any) => {
+//     const expense = await Expense.find()
+//     try {
+//         const page = 1;
+//         const pageSize = 10;
+    
+//         const [items, totally] = await Expense.findAndCount({
+//           skip: pageSize * (page - 1),
+//           take: pageSize,
+//           order: {
+//             date: 'ASC'
+//           },
+//           // relations: ['user', 'user.profile' ,'tags']
+//           // loadRelationIds: true,
+//         });
+//         res.send({
+//             page,
+//             pageSize,
+//             items,
+//             totally,
+//             total: expense.length,
+//             expense,
+
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send("Something went wrong!");
+//     }
+// })
+
 router.get('/', async (req: any, res: any) => {
-
-
     const expense = await Expense.find()
     try {
-        res.send({
-            total: expense.length,
-            expense,
+        const page = parseInt(req.query.page || '1');
+        const pageSize = parseInt(req.query.pageSize || '10');
+    
+        const [items, totally] = await Expense.findAndCount({
+          skip: pageSize * (page - 1),
+          take: pageSize,
+          order: {
+            date: 'ASC'
+          },
+          // relations: ['user', 'user.profile' ,'tags']
+          // loadRelationIds: true,
+        });
+        res.send({ 
+            "total of expenses": totally,
+            page,
+            pageSize,
+            items,
+           
         });
     } catch (error) {
         console.error(error);
         res.status(500).send("Something went wrong!");
     }
 })
-
 
 
 // Convert amount ...GET

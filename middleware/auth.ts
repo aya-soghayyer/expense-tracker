@@ -4,7 +4,8 @@ import { Account } from "../db/entity/account.js";
 import { ExpressNS } from "../@types/index.js";
 
 const authenticate: RequestHandler<any, any, Record<string, any>, any, Record<string, any>> = async (req, res, next) => {
-    const token = req.headers["authorization"]?.split(" ")[1] || "";
+    const token = req.headers["authorization"]||"";
+    console.log("the token is "+ token);
     let validToken;
     try {
         validToken = jwt.verify(token, process.env.SECRET_KEY || "");

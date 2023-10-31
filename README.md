@@ -500,7 +500,6 @@ search about currency by sub string that is contained in the currency name
 | :---: | :---: | :---: |
 |   |   |
 |  |  |
-#### Responses
 -
 -
 ---

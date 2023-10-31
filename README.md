@@ -445,13 +445,14 @@ search of records via categoryName selected , put the total amount of category a
 }
 ```
 - **500**
-  ```
+```
  { error: 'An error occurred while calculating category analytics.' }
-  ```
+```
 - **400**
 ```
-{ error: 'Missing "categoryName" parameter.' })
+{ error: 'Missing "categoryName" parameter.' }
 ```
+
 ***
 ***
 ## Currency Routes💱:

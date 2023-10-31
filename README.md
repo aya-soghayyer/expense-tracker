@@ -24,8 +24,7 @@ it’s a web app for storing all your money activities you can also know when an
 
 - security login, sign up 
 - create new category 
-- use Google account and Facebook to register and login
-- register as a team/user 
+- register as a user 
 - record all expense updates 
 - Search for some  analytics 
 - submit  some attachments
@@ -40,7 +39,7 @@ it’s a web app for storing all your money activities you can also know when an
 
 ## Endpoints 🌌 :
 ## Account Routes💻:
-### Endpoint: POST `/expense-tracker/signup `
+### Endpoint: POST `/expense-tracker/accounts/signup `
 #### Description 
 Register with new personal account
 #### Request Body
@@ -61,7 +60,7 @@ Register with new personal account
 - **400** `"All fields are required"`
 - **500** `"Internal server error"`
 ---
-### Endpoint: POST `/expense-tracker/login `
+### Endpoint: POST `/expense-tracker/accounts/login `
 #### Description
 Login with a personal account
 #### Request Body
@@ -78,7 +77,7 @@ Login with a personal account
 - **400** `"Invalid email or password"`
 - **500** `"Internal server error"`
 ---
-### Endpoint: GET `/expense-tracker/logout `
+### Endpoint: GET `/expense-tracker/accounts/logout `
 #### Description
 To logout from the account
 #### Responses
@@ -96,7 +95,7 @@ To delete the account
 #### Responses
 - **200**
 ```
-
+Account logged out successfully
 ```  
 - **500** :`'Internal Server Error'`
 ***

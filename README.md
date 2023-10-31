@@ -166,7 +166,7 @@ show the data of records
 | currencyId | |
 | photo | string|
 #### Responses
--**200**
+- **200**
 ```
 {
     "total of expenses": 47,
@@ -256,7 +256,7 @@ show the data of records
     ]
 }
 ```
--**500**
+- **500**
 `"Something went wrong!"`
 
 ---
@@ -269,14 +269,14 @@ convert  currency to other currency with amount
 |   |   |
 |  |  |
 #### Responses
--**200**
+- **200**
 ```
 {
     "amount": "300",
     "amountAfter": 74.66
 }
 ```
--**500**
+- **500**
 `"Something went wrong!"`
 ---
 ### Endpoint: GET `/min`
@@ -288,13 +288,13 @@ get  minimum category that have selected
 |   |   |
 |  |  |
 #### Responses
--**200**
+- **200**
 ```
 {
     "minAmount": 4
 }
 ```
--**500**
+- **500**
 `"Something went wrong!"`
 ---
 ### Endpoint: GET `/max`
@@ -306,13 +306,13 @@ get  maximum category that have selected
 |   |   |
 |  |  |
 #### Responses
--**200**
+- **200**
 ```
 {
     "minAmount": 5000
 }
 ```
--**500**
+- **500**
 `"Something went wrong!"`
 ---
 ### Endpoint: GET `/analytics/budget`
@@ -324,13 +324,13 @@ return the budget
 |   |   |
 |  |  |
 #### Responses
--**200**
+- **200**
 ```
 {
      "Total Amount": 77537
 }
 ```
--**500**
+- **500**
 `"Something went wrong!"`
 ---
 ### Endpoint: GET `/analytics/day`
@@ -342,7 +342,7 @@ return the total expenses for a day in the dataset.
 |   |   |
 |  |  |
 #### Responses
--**200**
+- **200**
 ```
 {
     "Total amount for this date ": 1569,
@@ -383,7 +383,7 @@ return the total expenses for a day in the dataset.
     ]
 }
 ```
--**500**
+- **500**
 `"Something went wrong!"`
 ---
 ### Endpoint: GET `/analytics/year`
@@ -395,8 +395,14 @@ return the total expenses for each year in the dataset.
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+`""`
+- **500**
+```
+{
+    "error": "An error occurred while calculating expenses for the specified year."
+}
+```
 ---
 ### Endpoint: GET `/analytics/month`
 #### Description
@@ -407,8 +413,20 @@ return the total expenses for each month in the  dataset.
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+{
+    "Total": "1008"
+}
+```
+- **500**
+  ```
+  { error: 'An error occurred while calculating expenses for the specified month.' }
+  ```
+- **400**
+```
+{ error: 'Missing "monthValue" parameter.' }
+```
 ---
 ### Endpoint: GET `/analytics/category`
 #### Description
@@ -419,8 +437,21 @@ search of records via categoryName selected , put the total amount of category a
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+{
+    "totalAmount": "20",
+    "recordCount": "5"
+}
+```
+- **500**
+  ```
+ { error: 'An error occurred while calculating category analytics.' }
+  ```
+- **400**
+```
+{ error: 'Missing "categoryName" parameter.' })
+```
 ***
 ***
 ## Currency Routes💱:

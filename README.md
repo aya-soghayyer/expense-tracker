@@ -549,9 +549,7 @@ edit  the category name
 | :---: | :---: | :---: |
 |   |   |
 |  |  |
-#### Responses
--
--
+
 ---
 ### Endpoint: GET `/search`
 #### Description

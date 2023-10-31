@@ -10,7 +10,7 @@ export class Expense extends BaseEntity{
     @PrimaryGeneratedColumn('increment')
     id : number 
 
-    @Column({length: 70})
+    @Column({length: 70, nullable:true})
     name : string
     
     @Column({type: "longtext" })

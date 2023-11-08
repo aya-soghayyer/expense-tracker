@@ -11,7 +11,7 @@ export class Currency extends BaseEntity{
     @Column({length: 30})
     title: string 
 
-    @Column({length: 3})
+    @Column({})
     symbol: string 
 
     @OneToMany(() =>Expense, (expense)=>expense.currency)

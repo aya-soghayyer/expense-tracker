@@ -46,7 +46,8 @@ router.put('/:id', async (req:any, res:any) => {
     }
 })
 
-router.get('/search', async (req: any, res: any) => {
+// search for categories ...GET
+router.get('/', async (req: any, res: any) => {
     const term = req.query.term;
     try {
         const category = await Category.find({
@@ -64,6 +65,7 @@ router.get('/search', async (req: any, res: any) => {
     }
 })
 
+// get all categories ...GET
 router.get('/', async (req: any, res: any) => {
 
     const categories = await Category.find()

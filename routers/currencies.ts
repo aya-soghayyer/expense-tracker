@@ -47,7 +47,8 @@ router.put('/:id', async (req:any, res:any) => {
     }
 })
 
-router.get('/search', async (req: any, res: any) => {
+// search for currnecies ...GET
+router.get('/', async (req: any, res: any) => {
     const term = req.query.term;
     try {
         const currency = await Currency.find({
@@ -65,6 +66,7 @@ router.get('/search', async (req: any, res: any) => {
     }
 })
 
+// get all currencies ...GET
 router.get('/', async (req: any, res: any) => {
 
     const currency = await Currency.find()

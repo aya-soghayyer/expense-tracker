@@ -8,17 +8,11 @@ import expenseRouter from './routers/expenses.js'
 import catgoryRouter from './routers/categories.js'
 import currencyRouter from './routers/currencies.js'
 import accountRounter from './routers/account.js'
-// import dataSource from "./db/dataSource.js";
-
-// import { Db } from "typeorm";
-
-// import { Index } from "typeorm";
-
 
 const app = express() ; 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-// const PORT = 3000 ; 
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -33,7 +27,6 @@ app.use(function (req, res, next) {
     next(createError(404));
   });
 
-// using Redis ;
 
   // error handler
 app.use(function (err: any, req: any, res: any, next: any) {

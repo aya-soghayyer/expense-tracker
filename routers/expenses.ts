@@ -20,6 +20,7 @@ import { login } from '../controllers/account.js';
 import { request } from 'http';
 import { ToS3Bucket } from '../utils/aws-configur-S3.js';
 import { authenticate } from '../middleware/auth.js';
+import fs from 'fs'
 
 
 
@@ -32,7 +33,6 @@ dotenv.config()
 const router = express.Router();
 router.use(express.json());
 
-// const upload = multer({ dest: 'uploads/' })
 
 
 //Set up Multer for file uploads
@@ -64,9 +64,9 @@ router.post('/',authenticate,  upload.single('photo'), async (req:any, res:any) 
         newExpense.category = req.body.categoryId;
         newExpense.currency= req.body.currencyId
         newExpense.account = req.account
-        const S3 = await ToS3Bucket()
-        const data = await S3.upload(photo).promise();
-        console.log(data)   
+        // const S3 = await ToS3Bucket()
+        // const data = await S3.upload(photo).promise();
+        // console.log(data)   
         newExpense.photo = photo;
      
         // Save the new expense to the database
@@ -80,51 +80,13 @@ router.post('/',authenticate,  upload.single('photo'), async (req:any, res:any) 
     }
 });
 
-
-// router.post('/', authenticate , upload.single('photo'), async (req, res) => {
-//     try {
-//         const { name, description, amount } = req.body;
-//         const photo = req.file ? req.file.filename : " ";
-
-//         // Assuming the authenticated user's account is available in req.user
-//         if(req.user===undefined){
-//             return
-//         }
-//         const accountId = req.user;
-
-//         // Create a new Expense record
-//         const newExpense = new Expense();
-//         newExpense.name = name;
-//         newExpense.description = description;
-//         newExpense.amount = amount;
-//         newExpense.category = req.body.categoryId;
-//         newExpense.currency = req.body.currencyId;
-//         newExpense.account =  ; // Associate the account ID
-
-//         // Continue with your S3 upload and database save process
-//         const S3 = await ToS3Bucket();
-//         const data = await S3.upload(photo).promise();
-//         newExpense.photo = photo;
-
-//         // Save the new expense to the database
-//         await db.getRepository(Expense).save(newExpense);
-
-//         res.status(201).send('New expense record added with ID: ' + newExpense.id);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('An error occurred while creating the expense record.');
-//     }
-// });
-
-
-
 // Delete expense ...DELETE
 router.delete('/:id', async (req, res) => {
     const id = Number(req.params.id);
     const expense = await Expense.findOneBy({ id });
     if (expense) {
         expense.remove().then((response) => {
-            res.status(201).send('Delete expense successful :)');
+            res.status(200).send('Delete expense successful :)');
         }).catch(error => {
             console.error(error);
             res.status(500).send('Something went wrong');
@@ -145,7 +107,7 @@ router.put('/:id', async (req: any, res: any) => {
         // expense.account = req.body.account;
         expense.photo = req.body.attachment_recip;
         expense.save().then((response) => {
-            res.status(201).send('Update expense successful :) ' + response.id);
+            res.status(200).send('Update expense successful :) ' + response.id);
         }).catch(error => {
             console.error(error);
             res.status(500).send('Something went wrong');
@@ -212,7 +174,6 @@ router.get('/', async (req: any, res: any) => {
     }
 })
 
-
 // Convert amount ...GET
 router.get('/convert', async (req: any, res: any) => {
 
@@ -231,8 +192,6 @@ router.get('/convert', async (req: any, res: any) => {
         .then(response => response.json())
         .then(data => {
             num = data.data[to]
-
-
         }).then(() => {
             try {
                 res.send({
@@ -255,8 +214,8 @@ router.get('/min', async (req: any, res: any) => {
     })
     const minAmount = Math.min(...expense.map(expense => expense.amount));
     const expensemin = Expense.minimum
-    console.log(expensemin)
-    console.log(minAmount)
+    // console.log(expensemin)
+    // console.log(minAmount)
     try {
         res.send({
             minAmount: minAmount,
@@ -369,7 +328,7 @@ router.get('/analytics/month', async (req: any, res: any) => {
                 .andWhere('expense.date <= :lastDay', { lastDay })
                 .getRawOne();
 
-            res.json(result);
+            res.send(result);
         } catch (error) {
             res.status(500).json({ error: 'An error occurred while calculating expenses for the specified month.' });
         }
@@ -414,84 +373,6 @@ router.get('/analytics/category', async (req, res) => {
         res.status(400).json({ error: 'Missing "categoryName" parameter.' });
     }
 });
-
-
-// router.get('/expenses/analytics/total_amount', async (req, res) => {
-
-//     try {
-//       const fromDate =  new Date(req.query.fromDate); // Date format for start date
-//       const toDate = req.query.toDate;     // Date format for end date
-//       const targetCurrency = req.query.currency;     // Target currency code
-
-//       // Find expenses within the specified date range
-//       const expenses = await Expense.find({
-//         // date: {  fromDate,  toDate },
-//       });
-
-//       // Initialize the total amount
-//       let totalAmount = 0;
-
-//       // Iterate through expenses and convert to the target currency
-//       for (const expense of expenses) {
-//         const access_key = process.env.currency_key_access;
-//         const url = `https://api.freecurrencyapi.com/v1/latest?apikey=${access_key}&currencies=${targetCurrency}&base_currency=ILS`;
-//         const response = await fetch(url);
-//         const data = await response.json();
-//         const num = data.data['targetCurrency'];
-
-//         if (num === undefined) {
-//           throw "Invalid target currency!";
-//         }
-
-//         const convertedAmount = Number((num * expense.amount).toFixed(2));
-//         totalAmount += convertedAmount;
-//       }
-
-//       res.json({ totalAmount });
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).json({ error: "Something went wrong!" });
-//     }
-//   });
-
-
-
-
-
-
-
-
-//*** */
-
-
-
-
-// router.post('/upload', upload.single('image'), (req, res) => {
-//     // var data={'filename': req.file.filename};
-//     if (!req.file) {
-//         res.status(500).send("Failed Upload File!");
-//         return;
-//     }
-
-//     const fileURL = req.file.destination + req.file.filename + req.file.size;
-//     res.send({
-//         message: 'File Uploaded Successfully!',
-//         file: fileURL,
-//     })
-
-//     console.log(req.file)
-// })
-
-
-
-function isAuthenticated(req:any, res:any, next:any){
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.status(401).json({ error: 'Not authenticated' });
-}
-
-
 
 
 

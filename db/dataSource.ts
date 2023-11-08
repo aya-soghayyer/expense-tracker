@@ -21,7 +21,8 @@ const AppDataSource = new DataSource({
     entities: [   Expense, Currency, Category,Account],
     // migrations: ['./**/migration/*.ts'],
     synchronize: true,
-    logging: false
+    logging: true
+  
   });
 
   const initialize = ()=>{

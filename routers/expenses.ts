@@ -64,9 +64,9 @@ router.post('/',authenticate,  upload.single('photo'), async (req:any, res:any) 
         newExpense.category = req.body.categoryId;
         newExpense.currency= req.body.currencyId
         newExpense.account = req.account
-        // const S3 = await ToS3Bucket()
-        // const data = await S3.upload(photo).promise();
-        // console.log(data)   
+        const S3 = await ToS3Bucket()
+        const data = await S3.upload(photo).promise();
+        console.log(data)   
         newExpense.photo = photo;
      
         // Save the new expense to the database

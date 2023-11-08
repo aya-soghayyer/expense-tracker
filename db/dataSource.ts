@@ -20,7 +20,7 @@ const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     entities: [   Expense, Currency, Category,Account],
     // migrations: ['./**/migration/*.ts'],
-    synchronize: true,
+   // synchronize: true,
     logging: true
   
   });

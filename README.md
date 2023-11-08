@@ -90,8 +90,8 @@ To delete the account
 #### Request Body
 | **Field**  | **Type** | **Description** |
 | :---: | :---: | :---: |
-|   |   |
-|  |  |
+|   | string  | 
+|   |  |
 #### Responses
 - **200**
 ```
@@ -107,11 +107,18 @@ for adding a new record and photo if user need
 #### Request Body
 | **Field**  | **Type** | **Description** |
 | :---: | :---: | :---: |
-|   |   |
-|  |  |
+|  name | string  |
+|  description| string |  
+|  photo | string
+|  amount | number 
+|  categoryId | 
+|  currencyId |
 #### Responses
--
--
+-**201**
+` "New expense record added with ID:"`
+-**500**
+`"An error occurred while creating the expense record."`
+
 ---
 ### Endpoint: DELETE `/:id`
 #### Description
@@ -122,8 +129,11 @@ for deleting the record
 |   |   |
 |  |  |
 #### Responses
--
--
+-**200**
+`"Delete expense successful :)"`
+-**500**
+`"Something went wrong"`
+
 ---
 ### Endpoint: PUT `/:id`
 #### Description
@@ -131,11 +141,17 @@ to edit the  record
 #### Request Body
 | **Field**  | **Type** | **Description** |
 | :---: | :---: | :---: |
-|   |   |
-|  |  |
+| name  | string  |
+| descirption |string  |
+| amount |number|
+| categoryId | |
+| currencyId | |
+| photo | string|
 #### Responses
--
--
+-**200**
+`"Update expense successful :) "`
+-**500**
+`"Something went wrong"`
 ---
 ### Endpoint: GET `/`
 #### Description
@@ -143,11 +159,106 @@ show the data of records
 #### Request Body
 | **Field**  | **Type** | **Description** |
 | :---: | :---: | :---: |
-|   |   |
-|  |  |
+| name  | string  |
+| descirption |string  |
+| amount |number|
+| categoryId | |
+| currencyId | |
+| photo | string|
 #### Responses
--
--
+- **200**
+```
+{
+    "total of expenses": 47,
+    "page": 1,
+    "pageSize": 10,
+    "items": [
+        {
+            "id": 26,
+            "name": "books",
+            "description": "dandes library",
+            "amount": "18",
+            "date": "2023-10-30T20:29:17.013Z",
+            "photo": ""
+        },
+        {
+            "id": 27,
+            "name": "",
+            "description": "dandes library",
+            "amount": "30",
+            "date": "2023-10-30T22:05:56.102Z",
+            "photo": "1698703556090.jpg"
+        },
+        {
+            "id": 28,
+            "name": "",
+            "description": "dandes library",
+            "amount": "30",
+            "date": "2023-10-30T22:07:31.138Z",
+            "photo": "1698703651124.jpg"
+        },
+        {
+            "id": 29,
+            "name": "",
+            "description": "dandes library",
+            "amount": "40",
+            "date": "2023-10-30T22:28:16.880Z",
+            "photo": "1698704896864.jpg"
+        },
+        {
+            "id": 30,
+            "name": null,
+            "description": "jawwal company",
+            "amount": "5000",
+            "date": "2023-10-30T22:32:44.486Z",
+            "photo": "1698705164474.jpg"
+        },
+        {
+            "id": 31,
+            "name": "iphone",
+            "description": "jawwal company",
+            "amount": "5000",
+            "date": "2023-10-30T22:33:40.172Z",
+            "photo": "1698705220157.jpg"
+        },
+        {
+            "id": 32,
+            "name": "iphone",
+            "description": "jawwal company",
+            "amount": "5000",
+            "date": "2023-10-31T07:02:07.721Z",
+            "photo": "1698735727699.jpg"
+        },
+        {
+            "id": 34,
+            "name": "iphone",
+            "description": "jawwal company",
+            "amount": "5000",
+            "date": "2023-10-31T07:59:22.648Z",
+            "photo": "1698739162618.jpg"
+        },
+        {
+            "id": 36,
+            "name": "iphone",
+            "description": "jawwal company",
+            "amount": "5000",
+            "date": "2023-10-31T08:03:41.717Z",
+            "photo": "1698739421692.jpg"
+        },
+        {
+            "id": 37,
+            "name": "iphone",
+            "description": "jawwal company",
+            "amount": "5000",
+            "date": "2023-10-31T08:04:39.003Z",
+            "photo": "1698739478985.jpg"
+        }
+    ]
+}
+```
+- **500**
+`"Something went wrong!"`
+
 ---
 ### Endpoint: GET `/convert`
 #### Description
@@ -158,8 +269,15 @@ convert  currency to other currency with amount
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+{
+    "amount": "300",
+    "amountAfter": 74.66
+}
+```
+- **500**
+`"Something went wrong!"`
 ---
 ### Endpoint: GET `/min`
 #### Description
@@ -170,8 +288,14 @@ get  minimum category that have selected
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+{
+    "minAmount": 4
+}
+```
+- **500**
+`"Something went wrong!"`
 ---
 ### Endpoint: GET `/max`
 #### Description
@@ -182,8 +306,14 @@ get  maximum category that have selected
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+{
+    "minAmount": 5000
+}
+```
+- **500**
+`"Something went wrong!"`
 ---
 ### Endpoint: GET `/analytics/budget`
 #### Description
@@ -194,8 +324,14 @@ return the budget
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+{
+     "Total Amount": 77537
+}
+```
+- **500**
+`"Something went wrong!"`
 ---
 ### Endpoint: GET `/analytics/day`
 #### Description
@@ -206,8 +342,49 @@ return the total expenses for a day in the dataset.
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+{
+    "Total amount for this date ": 1569,
+    "Number of purchases ": 4,
+    "expenses": [
+        {
+            "id": 4,
+            "name": "vacuum cleaner",
+            "description": "new vaccum from mall",
+            "amount": "700",
+            "date": "2023-10-28T21:00:00.000Z",
+            "photo": null
+        },
+        {
+            "id": 16,
+            "name": "chocolate",
+            "description": "bought chocolate from market",
+            "amount": "4",
+            "date": "2023-10-28T21:00:00.000Z",
+            "photo": null
+        },
+        {
+            "id": 17,
+            "name": "jaket",
+            "description": "red jaket from hebron cneter",
+            "amount": "65",
+            "date": "2023-10-28T21:00:00.000Z",
+            "photo": null
+        },
+        {
+            "id": 18,
+            "name": "TV",
+            "description": " from hebron cneter",
+            "amount": "800",
+            "date": "2023-10-28T21:00:00.000Z",
+            "photo": null
+        }
+    ]
+}
+```
+- **500**
+`"Something went wrong!"`
 ---
 ### Endpoint: GET `/analytics/year`
 #### Description
@@ -218,8 +395,14 @@ return the total expenses for each year in the dataset.
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+`""`
+- **500**
+```
+{
+    "error": "An error occurred while calculating expenses for the specified year."
+}
+```
 ---
 ### Endpoint: GET `/analytics/month`
 #### Description
@@ -230,8 +413,20 @@ return the total expenses for each month in the  dataset.
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+{
+    "Total": "1008"
+}
+```
+- **500**
+  ```
+  { error: 'An error occurred while calculating expenses for the specified month.' }
+  ```
+- **400**
+```
+{ error: 'Missing "monthValue" parameter.' }
+```
 ---
 ### Endpoint: GET `/analytics/category`
 #### Description
@@ -242,8 +437,22 @@ search of records via categoryName selected , put the total amount of category a
 |   |   |
 |  |  |
 #### Responses
--
--
+- **200**
+```
+{
+    "totalAmount": "20",
+    "recordCount": "5"
+}
+```
+- **500**
+```
+ { error: 'An error occurred while calculating category analytics.' }
+```
+- **400**
+```
+{ error: 'Missing "categoryName" parameter.' }
+```
+
 ***
 ***
 ## Currency Routes💱:
@@ -291,7 +500,6 @@ search about currency by sub string that is contained in the currency name
 | :---: | :---: | :---: |
 |   |   |
 |  |  |
-#### Responses
 -
 -
 ---
@@ -341,9 +549,7 @@ edit  the category name
 | :---: | :---: | :---: |
 |   |   |
 |  |  |
-#### Responses
--
--
+
 ---
 ### Endpoint: GET `/search`
 #### Description
@@ -376,5 +582,6 @@ get all categories with total number of categories
 | currency | id, title, symbol | one to many with expense, one to many category  |
 | account  | id, avetar , username, email, password, , authuntication_type  | one to many with expense, many to one with business_account, many to one with personal_account  |
 ---
-![image](https://github.com/TarteelGH/expense-tracker/assets/114241640/2d080793-34b5-4658-aabf-aead7bcd80c9)
 
+
+![image](https://github.com/aya-soghayyer/expense-tracker/assets/128791822/4a492305-fa37-49b9-ba84-bea6f544650b)

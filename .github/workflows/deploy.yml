@@ -37,7 +37,7 @@ jobs:
         user: github
         ssh-private-key: ${{ secrets.DEPLOYMENT_KEY }}
     - name: deploy
-      run: docker compose -f docker-compose-prod.yml up -d
+      run: docker compose -f docker-compose-prod.yml up -d --remove-orphans && docker system prune -af
       env:
         GIT_VERSION: ${{ steps.image_version.outputs.gitsha }}
         DB_HOST: ${{ secrets.DB_HOST }}

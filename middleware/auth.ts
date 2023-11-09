@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
+import 'dotenv/config';
 import { Account } from "../db/entity/account.js";
 import { ExpressNS } from "../@types/index.js";
 
@@ -27,3 +28,6 @@ const authenticate: RequestHandler<any, any, Record<string, any>, any, Record<st
 };
 
 export { authenticate };
+import 'dotenv/config';
+
+

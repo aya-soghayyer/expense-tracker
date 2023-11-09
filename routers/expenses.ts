@@ -1,12 +1,10 @@
 import express from 'express';
-// import db from '../db/dataSource.js'
 import { Expense } from '../db/entity/expense.js';
 import multer from 'multer';
-import {AppDataSource as db} from '../db/dataSource.js';
+import { AppDataSource as db } from '../db/dataSource.js';
 import { format, parse } from 'path';
 import { error, info } from 'console';
 import { Any } from 'typeorm';
-import { Decimal128 } from 'typeorm/browser';
 import { setFips } from 'crypto';
 import { Currency } from '../db/entity/currency.js';
 import dotenv from 'dotenv'
@@ -52,9 +50,9 @@ const upload = multer({ storage });
 
 
 // Add expense ...POST
-router.post('/',authenticate,  upload.single('photo'), async (req:any, res:any) => {
+router.post('/', authenticate, upload.single('photo'), async (req: any, res: any) => {
     try {
-        const { name ,description, amount } = req.body;
+        const { name, description, amount } = req.body;
         const photo = req.file ? req.file.filename : "";
         // Create a new Expense record
         const newExpense = new Expense();
@@ -62,17 +60,17 @@ router.post('/',authenticate,  upload.single('photo'), async (req:any, res:any) 
         newExpense.description = description;
         newExpense.amount = amount;
         newExpense.category = req.body.categoryId;
-        newExpense.currency= req.body.currencyId
+        newExpense.currency = req.body.currencyId
         newExpense.account = req.account
         // const S3 = await ToS3Bucket()
         // const data = await S3.upload(photo).promise();
         // console.log(data)   
         newExpense.photo = photo;
-     
+
         // Save the new expense to the database
         // console.log(req.account)
         await db.getRepository(Expense).save(newExpense);
-        
+
         res.status(201).send(' New expense record added with ID:' + newExpense.id);
     } catch (error) {
         console.error(error);
@@ -121,7 +119,7 @@ router.put('/:id', async (req: any, res: any) => {
 //     try {
 //         const page = 1;
 //         const pageSize = 10;
-    
+
 //         const [items, totally] = await Expense.findAndCount({
 //           skip: pageSize * (page - 1),
 //           take: pageSize,
@@ -151,22 +149,22 @@ router.get('/', async (req: any, res: any) => {
     try {
         const page = parseInt(req.query.page || '1');
         const pageSize = parseInt(req.query.pageSize || '10');
-    
+
         const [items, totally] = await Expense.findAndCount({
-          skip: pageSize * (page - 1),
-          take: pageSize,
-          order: {
-            date: 'ASC'
-          },
-          // relations: ['user', 'user.profile' ,'tags']
-          // loadRelationIds: true,
+            skip: pageSize * (page - 1),
+            take: pageSize,
+            order: {
+                date: 'ASC'
+            },
+            // relations: ['user', 'user.profile' ,'tags']
+            // loadRelationIds: true,
         });
-        res.send({ 
+        res.send({
             "total of expenses": totally,
             page,
             pageSize,
             items,
-           
+
         });
     } catch (error) {
         console.error(error);

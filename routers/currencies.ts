@@ -1,7 +1,5 @@
 import express from 'express';
-// import { Category } from '../db/entity/category';
 import { Currency } from '../db/entity/currency.js';
-// import {AppDataSource, } from '../db/dataSource.js'
 import { Expense } from '../db/entity/expense.js';
 import { Like } from 'typeorm';
 import { AppDataSource, initialize } from '../db/dataSource.js';
@@ -33,7 +31,7 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.put('/:id', async (req:any, res:any) => {
+router.put('/:id', async (req: any, res: any) => {
     const id = req.params.id;
     const currency = await Currency.findOneBy({ id });
     if (currency) {
@@ -56,7 +54,7 @@ router.get('/', async (req: any, res: any) => {
                 { title: Like(`%${term}%`) },
             ]
         });
-        res.send({ 
+        res.send({
             total: currency.length,
             currency
         });

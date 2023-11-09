@@ -12,10 +12,10 @@ const ToS3Bucket = async () => {
         credentials: {
             accessKeyId,
             secretAccessKey,
-        },                                                                                                                                                                                                                                
+        },
         region: process.env.AWS_REGION,
     });
-     
+
     const S3 = new AWS.S3({});
     return S3;
 }

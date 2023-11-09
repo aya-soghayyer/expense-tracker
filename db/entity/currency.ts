@@ -3,18 +3,18 @@ import { BaseEntity, ChangeStreamReplaceDocument, Column, Entity, OneToMany, Pri
 import { Expense } from "./expense.js";
 
 @Entity('Currency')
-export class Currency extends BaseEntity{
-    
-    @PrimaryGeneratedColumn('increment')
-    id : number
+export class Currency extends BaseEntity {
 
-    @Column({length: 30})
-    title: string 
+    @PrimaryGeneratedColumn('increment')
+    id: number
+
+    @Column({ length: 30 })
+    title: string
 
     @Column({})
-    symbol: string 
+    symbol: string
 
-    @OneToMany(() =>Expense, (expense)=>expense.currency)
+    @OneToMany(() => Expense, (expense) => expense.currency)
     expenses: Expense[]
 
 

@@ -34,7 +34,11 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
   try {
     if (req.body.email && req.body.password) {
       const log = await login(req.body)
-      res.status(200).send("successfully login");
+      res.status(200).send({
+        "Id": log.account.id,
+        "User Name": log.account.userName,
+        "token": log.token
+      });
     } else {
       res.status(400).json("All fields are required");
     }
@@ -49,7 +53,7 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
 
 // Logout account ..GET..
 router.get("/logout", async (req, res) => {
-  
+
   res.cookie('fullName', '', {
     maxAge: -1,  // This means the cookie will be deleted
     expires: new Date(Date.now() - 1000)
@@ -66,21 +70,21 @@ router.get("/logout", async (req, res) => {
 // Delete account ..DELETE..
 router.delete("/", authenticate, async (req: ExpressNS.RequestWithAccount, res: express.Response) => {
   try {
-   const account = req.account;
-   if (!account) {
-     return res.status(404).json({ error: "Account not found."});
-   }
-   await deleteAccount(account);
-   res.status(200).send("account deleted successfully");
- } catch (error) {
-   console.error(error);
-   res.status(500).send('Internal Server Error');
-  } 
- });
+    const account = req.account;
+    if (!account) {
+      return res.status(404).json({ error: "Account not found." });
+    }
+    await deleteAccount(account);
+    res.status(200).send("account deleted successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 
 
- 
+
 
 
 

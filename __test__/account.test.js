@@ -1,13 +1,27 @@
 // import '../config.js';
 import dotenv from 'dotenv'
 import{AppDataSource, initialize } from '../dist/db/dataSource.js';
+import accountRouter from '../dist/routers/account.js';
 import { login } from "../dist/controllers/account.js";
 import jwt from 'jsonwebtoken';
+import express from  "express"
 import {signup , deleteAccount , getIdForAccount  } from '../dist/controllers/account.js'
+import supertest from 'supertest';
+import expenseRouter from '../dist/routers/expenses.js'
+import { Expense } from '../dist/db/entity/expense.js';
+
 
 
 
 dotenv.config();
+const app = express();
+app.use(express.json());
+app.use('/expense-tracker/accounts', accountRouter)
+app.use('/expense-tracker/expenses',expenseRouter);
+
+app.use(express.urlencoded({ extended: false }));
+
+
 
 // beforeAll(async () => {
 //   await initialize();
@@ -34,7 +48,6 @@ const tmpData = {
 describe("Login process", () => {
   let data;
 
-
   beforeAll(async () => {
     data = await login({email:tmpData.email , password : tmpData.password});
   })
@@ -48,9 +61,10 @@ describe("Login process", () => {
     expect(tokenIsValid).toBeTruthy();
   });
 
-  it("has valid payload", () => {
+  it("has valid payload", async () => {
     const payload = jwt.decode(data.token, { json: true });
     expect(payload?.email).toEqual(tmpData.email);
+   
   });
 
 
@@ -85,11 +99,6 @@ describe("Signup process", () => {
     expect(tokenIsValid).toBeTruthy();
   });
 
-  // it("has valid payload", () => {
-  //   const payload = jwt.decode(data.token, { json: true });
-  //   expect(payload?.email).toEqual(tmpData.email);
-  // });
-
 
 });
 
@@ -108,16 +117,22 @@ describe("delete account  process", () => {
 });
 
 
-//   const signup = async (payload: AccountNS.Account) => {
-//     const { userName, email, password} = payload;
-//     const account = await Account.findOneBy({ email })
-//     if (account) {
-//         throw ("Account already exists")
-//     }
-//     const token = generateToken(payload)
-  
-//     Account.create({ userName, email, password }).save()
-//     return token
-  
-//   }
+//get expense
+const request= supertest('http://localhost:3000');
+describe("getting expenses proccess ", () => {
 
+  it("get all expenses ", async () => {
+    const response = (await request.get("/expense-tracker/expenses/"))
+    expect(response.status).toBe(200);
+  });
+
+  it("get max amount for expenses ", async () => {
+    const response = (await request.get("/expense-tracker/expenses/max"))
+    expect(response.status).toBe(200);
+  });
+
+  it("get min amount for expenses ", async () => {
+    const response = (await request.get("/expense-tracker/expenses/min"))
+    expect(response.status).toBe(200);
+  });
+});

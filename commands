@@ -1,0 +1,74 @@
+## Set up new NodeJS app with Typescript
+1. `npm init`
+2. `npm i typescript -D`
+3. To create a typescript config file **tsconfig.json** `tsc --init`
+4. Update **tsconfig.json** to setup output directory  `"outDir": "./dist"`
+5. `npm i nodemon -g`
+
+## Run compile and run in the same time
+6. `npm i concurrently -D`
+7. create scripts in `package.json` file
+```
+"scripts": {
+  "build-tsc": "tsc -w",
+  "run-watch": "nodemon ./dist",
+  "dev": "concurrently \"npm run build-tsc\"  \"npm run run-watch\""
+}
+``` 
+### Run the compile and run command 
+8. `npm run dev`
+## install Express JS framework 
+9. `npm i express`
+
+## 
+`npm i @types/express -D` 
+
+## 
+`npm install uuid` 
+ 
+***********************
+## for db :
+## Install the npm package:
+
+`npm install typeorm --save`
+
+## You need to install reflect-metadata shim:
+
+`npm install reflect-metadata --save`
+
+## and import it somewhere in the global place of your app (for example in app.ts):
+
+`import "reflect-metadata"`
+
+## You may need to install node typings:
+
+`npm install @types/node --save-dev`
+
+## Install a database driver:
+
+   ### for MySQL or MariaDB
+    'npm install mysql --save'  
+    (you can install mysql2 instead as well)
+
+## TypeScript configuration
+
+ ### Also, make sure you are using TypeScript version 4.5 or higher, and you have enabled the following settings in tsconfig.json:
+
+`"emitDecoratorMetadata": true,`
+`"experimentalDecorators": true,`
+`"strictPropertyInitialization": false,` 
+
+
+### command for solusions : 
+`npm i --save logrocket`
+
+### to import an run the commnad :
+`import LogRocket from 'logrocket';`
+`LogRocket.init('cimhcy/expnese-tracker');`
+
+## for files upload
+`npm i multer`
+
+## for jwt :
+`npm i jsonwebtoken`
+

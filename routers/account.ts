@@ -3,9 +3,7 @@ import { signup, login, deleteAccount } from '../controllers/account.js'
 import { authenticate } from '../middleware/auth.js';
 import { ExpressNS } from '../@types/index.js';
 import jwt from 'jsonwebtoken';
-import passport, { session } from "passport"
 import { Account } from 'aws-sdk';
-import FacebookStrategy from "passport-facebook"
 import { Session } from 'inspector';
 
 const router = express.Router();

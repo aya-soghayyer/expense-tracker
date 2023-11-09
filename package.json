@@ -45,5 +45,6 @@
     "supertest": "^6.3.3",
     "typeorm": "^0.3.17",
     "uuid": "^9.0.1"
-  }
+  },
+  "keywords": []
 }

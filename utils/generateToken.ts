@@ -8,7 +8,7 @@ const generateToken = (account: AccountNS.Account) => {
         userName: account.userName
     };
 
-    const secretKey = process.env.SECRET_KEY || '';
+    const secretKey = process.env.SECRET_KEY || '1231234';
 
     const options = {
         expiresIn: '1d',

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Welcome to money lover and saver website 💸❤️‍🔥
 
 ## Main Project Information 📝:
@@ -585,3 +586,6 @@ get all categories with total number of categories
 
 
 ![image](https://github.com/aya-soghayyer/expense-tracker/assets/128791822/4a492305-fa37-49b9-ba84-bea6f544650b)
+=======
+# Expense-Tracker
+>>>>>>> a0a99b16b8296b44a41420da17755addd6534eca

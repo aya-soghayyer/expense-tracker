@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Welcome to money lover and saver website 💸❤️‍🔥
 
 ## Main Project Information 📝:

@@ -21,6 +21,7 @@ const signup = async (payload: AccountNS.Account) => {
 
 }
 
+
 const login = async (payload: AccountNS.Account) => {
   const { email, password } = payload;
   const account = await Account.findOne({ where: { email } })

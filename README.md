@@ -115,9 +115,9 @@ for adding a new record and photo if user need
 |  categoryId | 
 |  currencyId |
 #### Responses
--**201**
+- **201**
 ` "New expense record added with ID:"`
--**500**
+- **500**
 `"An error occurred while creating the expense record."`
 
 ---
@@ -130,9 +130,9 @@ for deleting the record
 |   |   |
 |  |  |
 #### Responses
--**200**
+- **200**
 `"Delete expense successful :)"`
--**500**
+- **500**
 `"Something went wrong"`
 
 ---
@@ -149,9 +149,9 @@ to edit the  record
 | currencyId | |
 | photo | string|
 #### Responses
--**200**
+- **200**
 `"Update expense successful :) "`
--**500**
+- **500**
 `"Something went wrong"`
 ---
 ### Endpoint: GET `/`
